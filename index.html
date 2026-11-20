@@ -94,11 +94,13 @@ async function update(){
   try{
     const response=await fetch(LISTENER_BRIDGE_URL,{cache:"no-store"});
     const data=await response.json();
-    if(!response.ok || !Number.isInteger(Number(data.listeners))) throw new Error(data.error||"Bridge did not return a valid listener count.");
+    if(!response.ok || !Number.isInteger(Number(data.listeners))) {
+      throw new Error(data.error || ("Bridge returned HTTP " + response.status));
+    }
     render(data.listeners);
   }catch(error){
     countNode.textContent="—";
-    messageNode.textContent="Could not read BPSTPH listener data. Retrying…";
+    messageNode.textContent=(error.message || "Could not read BPSTPH listener data") + " · Retrying…";
     console.warn("BPSTPH listener bridge:",error);
   }
 }
