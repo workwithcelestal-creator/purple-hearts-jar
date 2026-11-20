@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#160b2b">
+<title>PURPLE HEARTS JAR 💜</title>
+<style>
+:root{color-scheme:dark;--ink:#f8efff;--muted:#cbb8dc;--lav:#d9a8ff;--violet:#9b55e8;--deep:#160b2b}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 16px;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 28%,#4c2476 0%,#28123f 38%,#160b2b 76%);overflow-x:hidden}
+main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.28em;color:#d8b8f2}.title{font-size:clamp(29px,7vw,48px);font-weight:500;letter-spacing:.08em;margin:12px 0 5px;text-shadow:0 0 26px #b56bff77}.sub{font:14px system-ui,sans-serif;color:var(--muted);margin:0 0 14px}
+.jar-wrap{position:relative;width:min(84vw,390px);height:min(104vw,445px);max-height:445px;margin:0 auto 6px;filter:drop-shadow(0 22px 32px #08031188)}
+.jar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.glass{fill:url(#glass);stroke:#f3e8ffb5;stroke-width:3}.rim{fill:#d8c4ed22;stroke:#f4eaffd9;stroke-width:4}.base{fill:#e9d9ff18;stroke:#f4eaff99;stroke-width:2}.shine{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.55}.heart{position:absolute;width:24px;height:24px;filter:drop-shadow(0 1px 5px #b55cffbb);transform:translate(-50%,-50%);animation:arrive .55s cubic-bezier(.2,.8,.2,1) both}
+@keyframes arrive{from{opacity:0;transform:translate(-50%,-90%) scale(.35)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.count{font-size:clamp(54px,13vw,78px);line-height:1;font-weight:500;text-shadow:0 0 25px #c17aff66;font-variant-numeric:tabular-nums;margin-top:-8px}
+.count-label{font:600 11px system-ui,sans-serif;letter-spacing:.24em;color:#d8c1ee;margin-top:8px}
+.milestones{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:25px auto 18px;font:12px system-ui,sans-serif;color:#d9c5eb}
+.milestones span{border:1px solid #c99be64d;border-radius:99px;padding:7px 11px;background:#ffffff08}.milestones .reached{background:#a45ce944;border-color:#d6a5ff;color:#fff}
+.message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
+.footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
+@media(prefers-reduced-motion:reduce){.heart{animation:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">BPSTPH · STATIONHEAD</div>
+  <h1 class="title">PURPLE HEARTS JAR</h1>
+  <p class="sub">Every listener adds a little more love.</p>
+  <div class="jar-wrap" id="jarWrap" aria-label="A glass jar filling with purple hearts">
+    <svg class="jar" viewBox="0 0 400 450" role="img" aria-hidden="true">
+      <defs>
+        <linearGradient id="glass" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".18" stop-color="#fff" stop-opacity=".035"/><stop offset=".78" stop-color="#d8b9ff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+        <linearGradient id="neck" x1="0" x2="1"><stop stop-color="#fff" stop-opacity=".22"/><stop offset=".5" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient>
+        <clipPath id="inside"><path d="M118 95 Q118 80 137 80 H263 Q282 80 282 95 L300 135 Q311 157 311 183 V377 Q311 405 283 405 H117 Q89 405 89 377 V183 Q89 157 100 135Z"/></clipPath>
+      </defs>
+      <ellipse cx="200" cy="418" rx="125" ry="13" fill="#05020c" opacity=".35"/>
+      <path class="glass" d="M118 95 Q118 80 137 80 H263 Q282 80 282 95 L300 135 Q311 157 311 183 V377 Q311 405 283 405 H117 Q89 405 89 377 V183 Q89 157 100 135Z"/>
+      <path fill="url(#neck)" stroke="#f4eaff99" stroke-width="2" d="M125 43 Q125 35 137 35 H263 Q275 35 275 43 V92 H125Z"/>
+      <path class="rim" d="M119 39 Q119 27 134 27 H266 Q281 27 281 39 V51 Q281 61 266 61 H134 Q119 61 119 51Z"/>
+      <path class="base" d="M96 377 Q200 392 304 377 V389 Q304 414 280 414 H120 Q96 414 96 389Z"/>
+      <path class="shine" d="M112 158 Q101 190 104 236 V346"/>
+      <path class="shine" d="M288 171 Q299 207 296 255" opacity=".22"/>
+      <g id="hearts" clip-path="url(#inside)"></g>
+      <path d="M100 365 Q200 378 300 365" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="count" id="count" aria-live="polite">0</div>
+  <div class="count-label">HEARTS INSIDE THE JAR</div>
+  <div class="milestones" id="milestones"><span data-n="7">7</span><span data-n="17">17</span><span data-n="37">37</span><span data-n="77">77</span><span data-n="100">100</span></div>
+  <p class="message" id="message">Waiting for BPSTPH to go live 💜</p>
+  <div class="footer">YOUR STREAMS ARE COUNTED</div>
+</main>
+<script>
+/*
+  LIVE DATA CONNECTION
+  Expected response from the approved Stationhead data source:
+  { "listeners": 12 }
+
+  Leave empty until the public Stationhead listener count can be read
+  reliably. The page never invents or simulates a live count.
+*/
+const LISTENER_COUNT_URL = "";
+const POLL_INTERVAL_MS = 10000;
+const heartLayer = document.getElementById("hearts");
+const countNode = document.getElementById("count");
+const messageNode = document.getElementById("message");
+const milestoneNodes = [...document.querySelectorAll(".milestones span")];
+let currentCount = 0;
+
+function heartSvg(x,y,size,opacity,rotation){
+  const ns="http://www.w3.org/2000/svg";
+  const g=document.createElementNS(ns,"g");
+  g.setAttribute("transform",`translate(${x} ${y}) rotate(${rotation}) scale(${size/24})`);
+  g.setAttribute("opacity",opacity);
+  const p=document.createElementNS(ns,"path");
+  p.setAttribute("d","M12 21s-9-5.7-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.3-9 12-9 12Z");
+  p.setAttribute("fill",["#c58aff","#a95df0","#e0b7ff","#8d42d8","#d49cff"][Math.floor(Math.random()*5)]);
+  p.setAttribute("stroke","#f2ddff");p.setAttribute("stroke-opacity",".5");p.setAttribute("stroke-width",".65");
+  g.appendChild(p);return g;
+}
+function drawHearts(n){
+  heartLayer.replaceChildren();
+  const visible=Math.min(n,180);
+  for(let i=0;i<visible;i++){
+    const col=i%9,row=Math.floor(i/9);
+    const x=112+col*22+(Math.random()*7-3.5);
+    const y=385-row*16+(Math.random()*6-3);
+    if(y<100) continue;
+    heartLayer.appendChild(heartSvg(x,y,18+Math.random()*5,.78+Math.random()*.22,-18+Math.random()*36));
+  }
+  if(n>180){
+    for(let i=0;i<Math.min(n-180,30);i++){
+      const x=95+Math.random()*210,y=40+Math.random()*70;
+      heartLayer.appendChild(heartSvg(x,y,17+Math.random()*7,.9,-25+Math.random()*50));
+    }
+  }
+}
+function render(n){
+  currentCount=Math.max(0,Math.floor(Number(n)||0));
+  countNode.textContent=currentCount.toLocaleString();
+  drawHearts(currentCount);
+  milestoneNodes.forEach(el=>el.classList.toggle("reached",currentCount>=Number(el.dataset.n)));
+  messageNode.textContent=currentCount>100?"Hearts overflowing = Your streams are counted.":currentCount===100?"The jar is full. Your streams are counted.":currentCount>=77?"77 hearts reached 💜":currentCount>=37?"37 hearts reached 💜":currentCount>=17?"17 hearts reached 💜":currentCount>=7?"7 hearts reached 💜":"Every listener adds a heart.";
+}
+async function update(){
+  if(!LISTENER_COUNT_URL) return;
+  try{
+    const response=await fetch(LISTENER_COUNT_URL,{cache:"no-store"});
+    if(!response.ok) throw new Error("Listener source unavailable");
+    const data=await response.json();
+    if(!Number.isFinite(Number(data.listeners))) throw new Error("Invalid listener count");
+    render(data.listeners);
+  }catch(error){
+    messageNode.textContent="Waiting for BPSTPH listener data 💜";
+  }
+}
+render(0);
+if(LISTENER_COUNT_URL){update();setInterval(update,POLL_INTERVAL_MS);}
+</script>
+</body>
+</html>
