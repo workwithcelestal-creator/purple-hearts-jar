@@ -52,12 +52,8 @@ main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-u
   <div class="footer">YOUR STREAMS ARE COUNTED</div>
 </main>
 <script>
-/*
- * Direct-source attempt: read only the public BPSTPH profile page.
- * This deliberately does not use Stationhead's trending/homepage counts.
- * Browsers may block this cross-origin request unless Stationhead permits CORS.
- */
-const PROFILE_URL = "https://stationhead.com/bpstph";
+/* Set this after deploying stationhead-bridge.js as a Cloudflare Worker. */
+const LISTENER_BRIDGE_URL = "PASTE_YOUR_CLOUDFLARE_WORKER_URL_HERE";
 const POLL_INTERVAL_MS = 10000;
 const heartLayer = document.getElementById("hearts");
 const countNode = document.getElementById("count");
@@ -90,27 +86,20 @@ function render(n){
   milestoneNodes.forEach(el=>el.classList.toggle("reached",count>=Number(el.dataset.n)));
   messageNode.textContent=count>100?"Hearts overflowing = Your streams are counted.":count===100?"The jar is full. Your streams are counted.":count>=77?"77 hearts reached 💜":count>=37?"37 hearts reached 💜":count>=17?"17 hearts reached 💜":count>=7?"7 hearts reached 💜":"Every listener adds a heart.";
 }
-function extractProfileCount(html){
-  const doc=new DOMParser().parseFromString(html,"text/html");
-  const text=(doc.body?.innerText||doc.body?.textContent||"").replace(/\s+/g," ").trim();
-  // Match the listener phrase shown on the BPSTPH profile itself.
-  const match=text.match(/(?:^|\b)(\d[\d,]*)\s+listeners?\b/i);
-  if(!match)throw new Error("The BPSTPH profile response did not expose its listener count.");
-  return Number(match[1].replace(/,/g,""));
-}
 async function update(){
+  if(LISTENER_BRIDGE_URL.includes("PASTE_YOUR_")) {
+    messageNode.textContent="Bridge setup needed to connect BPSTPH live count 💜";
+    return;
+  }
   try{
-    const response=await fetch(PROFILE_URL,{method:"GET",mode:"cors",cache:"no-store",credentials:"omit"});
-    if(!response.ok)throw new Error("BPSTPH profile returned HTTP "+response.status);
-    const html=await response.text();
-    const count=extractProfileCount(html);
-    render(count);
+    const response=await fetch(LISTENER_BRIDGE_URL,{cache:"no-store"});
+    const data=await response.json();
+    if(!response.ok || !Number.isInteger(Number(data.listeners))) throw new Error(data.error||"Bridge did not return a valid listener count.");
+    render(data.listeners);
   }catch(error){
     countNode.textContent="—";
-    messageNode.textContent=error instanceof TypeError
-      ?"Stationhead blocked direct browser access (CORS). The live count is not connected yet."
-      :"Waiting for the BPSTPH profile listener count to appear…";
-    console.warn("BPSTPH direct profile read:",error);
+    messageNode.textContent="Could not read BPSTPH listener data. Retrying…";
+    console.warn("BPSTPH listener bridge:",error);
   }
 }
 update();
