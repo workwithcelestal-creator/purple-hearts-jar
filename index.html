@@ -11,15 +11,15 @@
 main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.28em;color:#d8b8f2}.title{font-size:clamp(29px,7vw,48px);font-weight:500;letter-spacing:.08em;margin:12px 0 5px;text-shadow:0 0 26px #b56bff77}.sub{font:14px system-ui,sans-serif;color:var(--muted);margin:0 0 14px}
 .jar-wrap{position:relative;width:min(84vw,390px);height:min(104vw,445px);max-height:445px;margin:0 auto 6px;filter:drop-shadow(0 22px 32px #08031188)}
 .jar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.glass{fill:url(#glass);stroke:#f3e8ffb5;stroke-width:3}.rim{fill:#d8c4ed22;stroke:#f4eaffd9;stroke-width:4}.base{fill:#e9d9ff18;stroke:#f4eaff99;stroke-width:2}.shine{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.55}.heart{position:absolute;width:24px;height:24px;filter:drop-shadow(0 1px 5px #b55cffbb);transform:translate(-50%,-50%);animation:arrive .55s cubic-bezier(.2,.8,.2,1) both}
-@keyframes arrive{from{opacity:0;transform:translate(-50%,-90%) scale(.35)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.glass{fill:url(#glass);stroke:#f3e8ffb5;stroke-width:3}.rim{fill:#d8c4ed22;stroke:#f4eaffd9;stroke-width:4}.base{fill:#e9d9ff18;stroke:#f4eaff99;stroke-width:2}.shine{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.55}
 .count{font-size:clamp(54px,13vw,78px);line-height:1;font-weight:500;text-shadow:0 0 25px #c17aff66;font-variant-numeric:tabular-nums;margin-top:-8px}
 .count-label{font:600 11px system-ui,sans-serif;letter-spacing:.24em;color:#d8c1ee;margin-top:8px}
 .milestones{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:25px auto 18px;font:12px system-ui,sans-serif;color:#d9c5eb}
 .milestones span{border:1px solid #c99be64d;border-radius:99px;padding:7px 11px;background:#ffffff08}.milestones .reached{background:#a45ce944;border-color:#d6a5ff;color:#fff}
 .message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
 .footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
-@media(prefers-reduced-motion:reduce){.heart{animation:none}}
+.heart{filter:drop-shadow(0 1px 5px #b55cffbb)}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
 <body>
@@ -45,32 +45,27 @@ main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-u
       <path d="M100 365 Q200 378 300 365" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width="2"/>
     </svg>
   </div>
-  <div class="count" id="count" aria-live="polite">0</div>
+  <div class="count" id="count" aria-live="polite">—</div>
   <div class="count-label">HEARTS INSIDE THE JAR</div>
   <div class="milestones" id="milestones"><span data-n="7">7</span><span data-n="17">17</span><span data-n="37">37</span><span data-n="77">77</span><span data-n="100">100</span></div>
-  <p class="message" id="message">Waiting for BPSTPH to go live 💜</p>
+  <p class="message" id="message">Connecting to BPSTPH public profile… 💜</p>
   <div class="footer">YOUR STREAMS ARE COUNTED</div>
 </main>
 <script>
 /*
-  LIVE DATA CONNECTION
-  Expected response from the approved Stationhead data source:
-  { "listeners": 12 }
-
-  Leave empty until the public Stationhead listener count can be read
-  reliably. The page never invents or simulates a live count.
-*/
-const LISTENER_COUNT_URL = "";
+ * Direct-source attempt: read only the public BPSTPH profile page.
+ * This deliberately does not use Stationhead's trending/homepage counts.
+ * Browsers may block this cross-origin request unless Stationhead permits CORS.
+ */
+const PROFILE_URL = "https://stationhead.com/bpstph";
 const POLL_INTERVAL_MS = 10000;
 const heartLayer = document.getElementById("hearts");
 const countNode = document.getElementById("count");
 const messageNode = document.getElementById("message");
 const milestoneNodes = [...document.querySelectorAll(".milestones span")];
-let currentCount = 0;
 
 function heartSvg(x,y,size,opacity,rotation){
-  const ns="http://www.w3.org/2000/svg";
-  const g=document.createElementNS(ns,"g");
+  const ns="http://www.w3.org/2000/svg",g=document.createElementNS(ns,"g");
   g.setAttribute("transform",`translate(${x} ${y}) rotate(${rotation}) scale(${size/24})`);
   g.setAttribute("opacity",opacity);
   const p=document.createElementNS(ns,"path");
@@ -83,40 +78,43 @@ function drawHearts(n){
   heartLayer.replaceChildren();
   const visible=Math.min(n,180);
   for(let i=0;i<visible;i++){
-    const col=i%9,row=Math.floor(i/9);
-    const x=112+col*22+(Math.random()*7-3.5);
-    const y=385-row*16+(Math.random()*6-3);
-    if(y<100) continue;
+    const col=i%9,row=Math.floor(i/9),x=112+col*22+(Math.random()*7-3.5),y=385-row*16+(Math.random()*6-3);
+    if(y<100)continue;
     heartLayer.appendChild(heartSvg(x,y,18+Math.random()*5,.78+Math.random()*.22,-18+Math.random()*36));
   }
-  if(n>180){
-    for(let i=0;i<Math.min(n-180,30);i++){
-      const x=95+Math.random()*210,y=40+Math.random()*70;
-      heartLayer.appendChild(heartSvg(x,y,17+Math.random()*7,.9,-25+Math.random()*50));
-    }
-  }
+  if(n>180)for(let i=0;i<Math.min(n-180,30);i++)heartLayer.appendChild(heartSvg(95+Math.random()*210,40+Math.random()*70,17+Math.random()*7,.9,-25+Math.random()*50));
 }
 function render(n){
-  currentCount=Math.max(0,Math.floor(Number(n)||0));
-  countNode.textContent=currentCount.toLocaleString();
-  drawHearts(currentCount);
-  milestoneNodes.forEach(el=>el.classList.toggle("reached",currentCount>=Number(el.dataset.n)));
-  messageNode.textContent=currentCount>100?"Hearts overflowing = Your streams are counted.":currentCount===100?"The jar is full. Your streams are counted.":currentCount>=77?"77 hearts reached 💜":currentCount>=37?"37 hearts reached 💜":currentCount>=17?"17 hearts reached 💜":currentCount>=7?"7 hearts reached 💜":"Every listener adds a heart.";
+  const count=Math.max(0,Math.floor(Number(n)||0));
+  countNode.textContent=count.toLocaleString();drawHearts(count);
+  milestoneNodes.forEach(el=>el.classList.toggle("reached",count>=Number(el.dataset.n)));
+  messageNode.textContent=count>100?"Hearts overflowing = Your streams are counted.":count===100?"The jar is full. Your streams are counted.":count>=77?"77 hearts reached 💜":count>=37?"37 hearts reached 💜":count>=17?"17 hearts reached 💜":count>=7?"7 hearts reached 💜":"Every listener adds a heart.";
+}
+function extractProfileCount(html){
+  const doc=new DOMParser().parseFromString(html,"text/html");
+  const text=(doc.body?.innerText||doc.body?.textContent||"").replace(/\s+/g," ").trim();
+  // Match the listener phrase shown on the BPSTPH profile itself.
+  const match=text.match(/(?:^|\b)(\d[\d,]*)\s+listeners?\b/i);
+  if(!match)throw new Error("The BPSTPH profile response did not expose its listener count.");
+  return Number(match[1].replace(/,/g,""));
 }
 async function update(){
-  if(!LISTENER_COUNT_URL) return;
   try{
-    const response=await fetch(LISTENER_COUNT_URL,{cache:"no-store"});
-    if(!response.ok) throw new Error("Listener source unavailable");
-    const data=await response.json();
-    if(!Number.isFinite(Number(data.listeners))) throw new Error("Invalid listener count");
-    render(data.listeners);
+    const response=await fetch(PROFILE_URL,{method:"GET",mode:"cors",cache:"no-store",credentials:"omit"});
+    if(!response.ok)throw new Error("BPSTPH profile returned HTTP "+response.status);
+    const html=await response.text();
+    const count=extractProfileCount(html);
+    render(count);
   }catch(error){
-    messageNode.textContent="Waiting for BPSTPH listener data 💜";
+    countNode.textContent="—";
+    messageNode.textContent=error instanceof TypeError
+      ?"Stationhead blocked direct browser access (CORS). The live count is not connected yet."
+      :"Waiting for the BPSTPH profile listener count to appear…";
+    console.warn("BPSTPH direct profile read:",error);
   }
 }
-render(0);
-if(LISTENER_COUNT_URL){update();setInterval(update,POLL_INTERVAL_MS);}
+update();
+setInterval(update,POLL_INTERVAL_MS);
 </script>
 </body>
 </html>
