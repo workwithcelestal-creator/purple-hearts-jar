@@ -184,9 +184,15 @@ async function update(){
     console.warn("BPSTPH listener bridge:",error);
   }
 }
-const previewMode = new URLSearchParams(window.location.search).get("demo") === "1";
-if(previewMode){
+const previewMode = new URLSearchParams(window.location.search).get("demo");
+if(previewMode === "100"){
   document.getElementById("previewNote").hidden=false;
+  document.getElementById("previewNote").textContent="VISUAL PREVIEW · 100 LISTENERS";
+  render(100);
+  messageNode.textContent="The jar is full. 100 hearts for 100 listeners! 💜";
+}else if(previewMode === "1"){
+  document.getElementById("previewNote").hidden=false;
+  document.getElementById("previewNote").textContent="VISUAL PREVIEW · SAMPLE HEART";
   render(0);
   setTimeout(()=>{
     render(1);
