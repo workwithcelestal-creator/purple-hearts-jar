@@ -108,17 +108,51 @@ function heartSvg(x,y,size,opacity,rotation){
   p.setAttribute("stroke","#f2ddff");p.setAttribute("stroke-opacity",".5");p.setAttribute("stroke-width",".65");
   g.appendChild(p);return g;
 }
-function drawHearts(n, previousCount = 0){
-  heartLayer.replaceChildren();
-  const visible=Math.min(n,180);
-  for(let i=0;i<visible;i++){
-    const col=i%9,row=Math.floor(i/9),x=112+col*22+(Math.random()*7-3.5),y=385-row*16+(Math.random()*6-3);
-    if(y<100)continue;
-    const heart=heartSvg(x,y,18+Math.random()*5,.78+Math.random()*.22,-18+Math.random()*36);
-    if(i>=previousCount)heart.classList.add("heart-enter");
-    heartLayer.appendChild(heart);
+const heartNodes = [];
+function createHeartAt(index, animate=false){
+  const ns="http://www.w3.org/2000/svg";
+  let x,y,startY,size=18+Math.random()*5;
+  if(index<180){
+    const col=index%9,row=Math.floor(index/9);
+    x=112+col*22+(Math.random()*7-3.5);
+    y=385-row*16+(Math.random()*6-3);
+    startY=48;
+  }else{
+    x=95+Math.random()*210;y=40+Math.random()*70;startY=y-35;
+    size=17+Math.random()*7;
   }
-  if(n>180)for(let i=0;i<Math.min(n-180,30);i++)heartLayer.appendChild(heartSvg(95+Math.random()*210,40+Math.random()*70,17+Math.random()*7,.9,-25+Math.random()*50));
+  const wrapper=document.createElementNS(ns,"g");
+  wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
+  const heart=heartSvg(0,0,size,.78+Math.random()*.22,-18+Math.random()*36);
+  wrapper.appendChild(heart);
+  heartLayer.appendChild(wrapper);
+  if(animate){
+    const fall=document.createElementNS(ns,"animateTransform");
+    fall.setAttribute("attributeName","transform");
+    fall.setAttribute("type","translate");
+    fall.setAttribute("from",`0 0`);
+    fall.setAttribute("to",`0 ${y-startY}`);
+    fall.setAttribute("dur","850ms");
+    fall.setAttribute("begin","0s");
+    fall.setAttribute("fill","freeze");
+    fall.setAttribute("calcMode","spline");
+    fall.setAttribute("keySplines",".2 .7 .25 1");
+    wrapper.appendChild(fall);
+    fall.beginElement();
+    wrapper.style.filter="drop-shadow(0 0 9px #e2b7ff)";
+    setTimeout(()=>{wrapper.style.filter="";},950);
+  }
+  return wrapper;
+}
+function drawHearts(n, animateNew=false){
+  const visible=Math.min(n,210);
+  while(heartNodes.length>visible){
+    const node=heartNodes.pop();node.remove();
+  }
+  while(heartNodes.length<visible){
+    const index=heartNodes.length;
+    heartNodes.push(createHeartAt(index,animateNew));
+  }
 }
 let lastRenderedCount = null;
 function render(n){
@@ -126,7 +160,7 @@ function render(n){
   if(count!==lastRenderedCount){
     const previousCount=lastRenderedCount===null?0:lastRenderedCount;
     countNode.textContent=count.toLocaleString();
-    drawHearts(count, count>previousCount?previousCount:count);
+    drawHearts(count, lastRenderedCount!==null && count>previousCount);
     lastRenderedCount=count;
   }
   milestoneNodes.forEach(el=>el.classList.toggle("reached",count>=Number(el.dataset.n)));
@@ -153,8 +187,11 @@ async function update(){
 const previewMode = new URLSearchParams(window.location.search).get("demo") === "1";
 if(previewMode){
   document.getElementById("previewNote").hidden=false;
-  render(1);
-  messageNode.textContent="A new listener joined. One purple heart added! 💜";
+  render(0);
+  setTimeout(()=>{
+    render(1);
+    messageNode.textContent="A new listener joined. Watch the heart fall into the jar! 💜";
+  },650);
 }else{
   update();
   setInterval(update,POLL_INTERVAL_MS);
