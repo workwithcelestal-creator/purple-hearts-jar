@@ -23,37 +23,37 @@ export default {
       });
       const html = await upstream.text();
 
-      const countMatch = html.match(/(?:^|[^\d])([\d,]+)\s+listeners?\b/i);
-      if (upstream.ok && countMatch) {
+      // Stationhead embeds BPSTPH's station object in its page payload.
+      // Match the listener_count belonging to an object whose type is "station";
+      // do not use the unrelated global online_member_count/listener_count.
+      const stationPattern = /\\?"type\\?"\s*:\s*\\?"station\\?"[\\s\\S]{0,5000}?\\?"listener_count\\?"\s*:\s*(\\d+)/g;
+      const matches = [...html.matchAll(stationPattern)];
+
+      if (!upstream.ok || matches.length === 0) {
         return new Response(JSON.stringify({
-          listeners: Number(countMatch[1].replace(/,/g, "")),
-          source: PROFILE,
-          checked_at: new Date().toISOString()
-        }), { headers });
+          error: "BPSTPH station listener count not found",
+          upstream_status: upstream.status,
+          final_url: upstream.url
+        }), { status: 502, headers });
       }
 
-      const snippets = {};
-      for (const term of ["listener", "online", "bpstph", "profile", "__NEXT_DATA__", "__NUXT__"]) {
-        const at = html.toLowerCase().indexOf(term.toLowerCase());
-        snippets[term] = at < 0 ? null : html.slice(Math.max(0, at - 180), Math.min(html.length, at + 320));
-      }
-      const scripts = [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)]
-        .map(match => match[1]).slice(0, 25);
-      const titleMatch = html.match(/<title[^>]*>(.*?)<\/title>/i);
-      const title = titleMatch ? titleMatch[1] : null;
+      const listenerCount = Number(matches[0][1]);
+      const stationContext = matches[0][0];
+      const broadcastingMatch = stationContext.match(/\\?"is_broadcasting\\?"\s*:\s*(true|false)/);
+      const broadcasting = broadcastingMatch ? broadcastingMatch[1] === "true" : null;
+      const stationIdMatch = stationContext.match(/\\?"id\\?"\s*:\s*(\\d+)/);
+      const stationId = stationIdMatch ? stationIdMatch[1] : null;
 
       return new Response(JSON.stringify({
-        error: "No explicit listener count found in BPSTPH profile HTML",
-        upstream_status: upstream.status,
-        final_url: upstream.url,
-        html_length: html.length,
-        title,
-        snippets,
-        scripts
-      }), { status: 200, headers });
+        listeners: listenerCount,
+        is_broadcasting: broadcasting,
+        station_id: stationId,
+        source: PROFILE,
+        checked_at: new Date().toISOString()
+      }), { headers });
     } catch (error) {
       return new Response(JSON.stringify({
-        error: "Could not fetch BPSTPH public profile",
+        error: "Could not retrieve BPSTPH public profile",
         detail: String(error)
       }), { status: 502, headers });
     }
