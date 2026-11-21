@@ -1,4 +1,5 @@
 const PROFILE = "https://stationhead.com/bpstph";
+const STATION_ID = "2797124";
 
 export default {
   async fetch(request) {
@@ -23,31 +24,34 @@ export default {
       });
       const html = await upstream.text();
 
-      // Stationhead embeds BPSTPH's station object in its page payload.
-      // Match the listener_count belonging to an object whose type is "station";
-      // do not use the unrelated global online_member_count/listener_count.
-      const stationPattern = /\\?"type\\?"\s*:\s*\\?"station\\?"[\\s\\S]{0,5000}?\\?"listener_count\\?"\s*:\s*(\\d+)/g;
-      const matches = [...html.matchAll(stationPattern)];
-
-      if (!upstream.ok || matches.length === 0) {
+      // The public profile embeds this exact BPSTPH station object.
+      // Restrict extraction to the known station ID to avoid the global
+      // online-member count elsewhere in the same page payload.
+      const idPosition = html.indexOf(STATION_ID);
+      if (!upstream.ok || idPosition < 0) {
         return new Response(JSON.stringify({
-          error: "BPSTPH station listener count not found",
+          error: "BPSTPH station object not found",
           upstream_status: upstream.status,
-          final_url: upstream.url
+          station_id: STATION_ID
         }), { status: 502, headers });
       }
 
-      const listenerCount = Number(matches[0][1]);
-      const stationContext = matches[0][0];
-      const broadcastingMatch = stationContext.match(/\\?"is_broadcasting\\?"\s*:\s*(true|false)/);
-      const broadcasting = broadcastingMatch ? broadcastingMatch[1] === "true" : null;
-      const stationIdMatch = stationContext.match(/\\?"id\\?"\s*:\s*(\\d+)/);
-      const stationId = stationIdMatch ? stationIdMatch[1] : null;
+      const stationContext = html.slice(idPosition, idPosition + 1800);
+      const typeMatch = stationContext.match(/type.{0,20}?station/i);
+      const countMatch = stationContext.match(/listener_count.{0,40}?(\\d+)/i);
+      if (!typeMatch || !countMatch) {
+        return new Response(JSON.stringify({
+          error: "BPSTPH station object found, but its listener_count could not be parsed",
+          station_id: STATION_ID,
+          station_context: stationContext.slice(0, 700)
+        }), { status: 502, headers });
+      }
 
+      const broadcastMatch = stationContext.match(/is_broadcasting.{0,20}?(true|false)/i);
       return new Response(JSON.stringify({
-        listeners: listenerCount,
-        is_broadcasting: broadcasting,
-        station_id: stationId,
+        listeners: Number(countMatch[1]),
+        is_broadcasting: broadcastMatch ? broadcastMatch[1] === "true" : null,
+        station_id: STATION_ID,
         source: PROFILE,
         checked_at: new Date().toISOString()
       }), { headers });
