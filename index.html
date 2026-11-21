@@ -32,13 +32,9 @@ body::before{background:#a044ff;top:-24vmax;left:-18vmax}
 body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 .cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:0;background:radial-gradient(230px circle at var(--mouse-x,50%) var(--mouse-y,50%),#c77aff26,transparent 72%);transition:opacity .35s ease}
 .jar-wrap{transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .55s ease}
-.jar-wrap:hover{transform:translateY(-4px) scale(1.015);filter:drop-shadow(0 25px 38px #a34cff77)}
-.jar-wrap:hover .jar{animation:jarShake .62s ease-in-out infinite}
-.jar-wrap:hover #hearts g{animation:heartJiggle .38s ease-in-out infinite alternate}
-.jar-wrap:hover #hearts g:nth-child(2n){animation-delay:-.19s}
-.jar-wrap:hover #hearts g:nth-child(3n){animation-delay:-.31s}
-@keyframes jarShake{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-1deg)}40%{transform:rotate(1deg)}60%{transform:rotate(-.7deg)}80%{transform:rotate(.7deg)}}
-@keyframes heartJiggle{from{translate:-2px -1px;rotate:-5deg}to{translate:2px 2px;rotate:5deg}}
+.jar-wrap:hover{transform:translateY(-3px) scale(1.01);filter:drop-shadow(0 25px 38px #a34cff77)}
+#hearts g{transition:transform .22s ease-out}
+@media(hover:hover) and (pointer:fine){.jar-wrap{cursor:crosshair}}
 .jar-wrap::after{content:"";position:absolute;inset:8% 10%;border-radius:48%;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 35% 30%,#fff5,transparent 48%);transition:opacity .5s ease}
 .jar-wrap:hover::after{opacity:.65}
 .title{transition:text-shadow .4s ease}
@@ -115,6 +111,34 @@ function heartSvg(x,y,size,opacity,rotation){
   g.appendChild(p);return g;
 }
 const heartNodes = [];
+// Hearts are gently pushed away from the cursor, like they are being nahahawi.
+const jarWrap = document.getElementById("jarWrap");
+let pointerInsideJar = false;
+jarWrap.addEventListener("pointermove", (event) => {
+  const rect = jarWrap.getBoundingClientRect();
+  const px = ((event.clientX - rect.left) / rect.width) * 400;
+  const py = ((event.clientY - rect.top) / rect.height) * 450;
+  const cx = 200, cy = 260;
+  heartNodes.forEach((node, index) => {
+    const baseX = Number(node.dataset.baseX);
+    const baseY = Number(node.dataset.baseY);
+    if (!Number.isFinite(baseX) || !Number.isFinite(baseY)) return;
+    const dx = baseX - px, dy = baseY - py;
+    const distance = Math.sqrt(dx*dx + dy*dy);
+    const influence = Math.max(0, 1 - distance / 115);
+    const push = influence * 19;
+    const length = Math.max(1, distance);
+    const driftX = (dx / length) * push;
+    const driftY = (dy / length) * push;
+    node.setAttribute("transform", `translate(${baseX + driftX} ${baseY + driftY})`);
+  });
+});
+jarWrap.addEventListener("pointerleave", () => {
+  heartNodes.forEach(node => {
+    const x=Number(node.dataset.baseX), y=Number(node.dataset.baseY);
+    if(Number.isFinite(x)&&Number.isFinite(y)) node.setAttribute("transform",`translate(${x} ${y})`);
+  });
+});
 function createHeartAt(index, animate=false){
   const ns="http://www.w3.org/2000/svg";
   let x,y,startY,size=30+Math.random()*6;
@@ -128,7 +152,7 @@ function createHeartAt(index, animate=false){
     size=28+Math.random()*8;
   }
   const wrapper=document.createElementNS(ns,"g");
-  wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
+  wrapper.dataset.baseX=String(x); wrapper.dataset.baseY=String(y);\n  wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
   const heart=heartSvg(0,0,size,.78+Math.random()*.22,-18+Math.random()*36);
   wrapper.appendChild(heart);
   heartLayer.appendChild(wrapper);
