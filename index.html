@@ -82,20 +82,24 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 .bubble:nth-child(27){width:80px;height:80px;left:31%;top:91%;--duration:19s;--opacity:0.27;animation-delay:-2s}
 .bubble:nth-child(28){width:117px;height:117px;left:78%;top:52%;--duration:26s;--opacity:0.34;animation-delay:-5s}
 @keyframes bubbleFloat{0%{transform:translate3d(-12px,18px,0) scale(.92)}100%{transform:translate3d(22px,-28px,0) scale(1.08)}}
-.whale-flight{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;opacity:.84}
-.whale-mover{position:absolute;left:0;top:0;width:clamp(210px,38vw,340px);animation:whaleJourney 38s ease-in-out infinite;will-change:transform}
-.whale{display:block;width:100%;height:auto;filter:drop-shadow(0 0 8px #d7a4ff99) drop-shadow(0 0 24px #9b55e855);animation:whaleBodySwim 3.4s ease-in-out infinite;transform-origin:50% 50%}
+.whale-flight{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;opacity:.76}
+.whale{position:absolute;width:clamp(210px,38vw,340px);height:auto;left:0;top:0;filter:drop-shadow(0 0 8px #d7a4ff99) drop-shadow(0 0 24px #9b55e855);animation:whaleJourney 38s linear infinite;will-change:transform}
+.whale .whale-body{fill:url(#whaleGradient);stroke:#d7c5ff;stroke-width:1.3;stroke-linejoin:round}
+.whale .whale-detail{fill:none;stroke:#cbb8f2;stroke-width:1.25;stroke-linecap:round;opacity:.78}
+.whale .whale-speckle{fill:#e5d9ff;opacity:.65}
+.whale .tail{transform-box:view-box;transform-origin:342px 94px;animation:tailFluke 1.9s ease-in-out infinite alternate}
+.whale .pectoral{transform-box:view-box;transform-origin:218px 139px;animation:pectoralSweep 2.7s ease-in-out infinite alternate}
 @keyframes whaleJourney{
-0%{transform:translate(-42vw,57vh) rotate(-9deg) scale(.72)}
-17%{transform:translate(3vw,38vh) rotate(-3deg) scale(.86)}
-34%{transform:translate(39vw,18vh) rotate(5deg) scale(1)}
-48%{transform:translate(67vw,30vh) rotate(13deg) scale(.94)}
-55%{transform:translate(75vw,43vh) rotate(20deg) scale(.9) scaleX(-1)}
-70%{transform:translate(53vw,65vh) rotate(8deg) scale(.84) scaleX(-1)}
-86%{transform:translate(9vw,58vh) rotate(-5deg) scale(.9) scaleX(-1)}
-100%{transform:translate(-42vw,57vh) rotate(-9deg) scale(.72)}
+0%{transform:translate(-42vw,48vh) rotate(-12deg) scale(.72)}
+18%{transform:translate(3vw,24vh) rotate(-4deg) scale(.86)}
+36%{transform:translate(39vw,10vh) rotate(8deg) scale(1)}
+52%{transform:translate(72vw,27vh) rotate(20deg) scale(.9) scaleX(-1)}
+68%{transform:translate(65vw,64vh) rotate(8deg) scale(.82) scaleX(-1)}
+84%{transform:translate(16vw,70vh) rotate(-10deg) scale(.9) scaleX(-1)}
+100%{transform:translate(-42vw,48vh) rotate(-12deg) scale(.72)}
 }
-@keyframes whaleBodySwim{0%,100%{transform:translateY(0) rotate(0deg) scaleY(1)}25%{transform:translateY(-7px) rotate(-1.4deg) scaleY(1.025)}50%{transform:translateY(1px) rotate(1.2deg) scaleY(.985)}75%{transform:translateY(6px) rotate(-.6deg) scaleY(1.015)}}
+@keyframes tailFluke{from{transform:rotate(-19deg) scaleY(.92)}to{transform:rotate(19deg) scaleY(1.08)}}
+@keyframes pectoralSweep{from{transform:rotate(-7deg)}to{transform:rotate(8deg)}}
 .jar-wrap{touch-action:none;user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
 
@@ -104,7 +108,39 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 <body>
 
 <div class="bubble-field" aria-hidden="true"><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i></div>
-<div class="whale-flight" aria-hidden="true"><div class="whale-mover"><img class="whale" src="./whale.webp" alt="" /></div></div><div class="cursor-glow" aria-hidden="true"></div>
+<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 460 270"><defs>
+<linearGradient id="whaleGradient" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#c9a8f7"/><stop offset=".28" stop-color="#7950bd"/><stop offset=".7" stop-color="#39245f"/><stop offset="1" stop-color="#21143f"/></linearGradient>
+<linearGradient id="whaleBelly" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eadcff"/><stop offset="1" stop-color="#9879c8"/></linearGradient></defs>
+<!-- Main humpback silhouette: broad knobbly rostrum, arched back, tapering peduncle -->
+<path class="whale-body" d="M24 91 C20 75 30 61 48 56 Q57 51 69 57 Q81 48 94 57 Q106 52 119 62 Q134 57 147 68 C178 80 211 93 247 100 C280 107 308 107 329 95 C345 86 354 69 359 48 C365 24 373 13 381 8 C385 26 383 43 377 58 C391 49 411 38 429 35 C426 56 415 73 396 85 C386 92 379 99 376 113 C370 141 344 161 310 171 C275 181 244 176 215 165 C183 153 151 145 119 133 C79 119 44 108 24 91Z"/>
+<!-- underside and throat pleats -->
+<path d="M31 92 C70 121 124 139 174 153 C219 166 261 177 306 169 C278 185 232 184 190 170 C128 151 72 127 31 92Z" fill="url(#whaleBelly)" opacity=".48"/>
+<g class="whale-detail">
+<path d="M32 91 Q79 131 139 146 Q193 166 250 176"/>
+<path d="M35 85 Q84 124 143 139 Q195 158 252 169"/>
+<path d="M40 79 Q91 116 149 132 Q201 150 261 161"/>
+<path d="M49 72 Q101 108 157 124 Q211 143 273 151"/>
+<path d="M60 65 Q111 98 169 116 Q225 133 286 140"/>
+<path d="M73 62 Q125 91 181 108 Q237 125 300 129"/>
+<path d="M91 62 Q143 85 197 101 Q253 116 317 116"/>
+</g>
+<!-- long scalloped pectoral fin -->
+<path class="whale-body pectoral" d="M190 130 C204 130 216 137 225 150 C242 176 258 206 269 231 Q273 243 263 242 C241 234 219 217 202 196 C185 176 174 153 176 141 Q180 132 190 130Z" fill="url(#whaleBelly)"/>
+<path class="whale-detail" d="M184 142 Q206 178 230 205 Q247 223 264 235 M193 139 Q214 171 239 197 M202 143 Q222 171 248 191"/>
+<!-- small far-side fin -->
+<path class="whale-body" d="M125 124 Q133 140 132 161 Q128 178 120 172 Q112 152 111 132Z" opacity=".82"/>
+<!-- tail stock and two distinct flukes -->
+<path class="whale-body" d="M342 112 Q359 99 369 78 Q378 60 377 42 Q382 62 378 82 Q375 101 362 122Z"/>
+<g class="tail">
+<path class="whale-body" d="M374 56 C358 40 344 27 329 17 C313 7 297 6 284 12 C296 28 312 39 331 47 C344 53 357 58 374 64Z"/>
+<path class="whale-body" d="M374 56 C387 38 403 23 420 17 C434 12 447 17 453 29 C440 40 425 49 407 55 C394 59 383 62 374 64Z"/>
+<path class="whale-detail" d="M372 58 Q346 31 310 16 M378 58 Q407 31 439 24"/>
+</g>
+<!-- eye, rostrum tubercles and subtle highlights -->
+<ellipse cx="89" cy="83" rx="4.5" ry="3.2" fill="#201238" stroke="#e8d8ff" stroke-width="1.2"/>
+<path class="whale-detail" d="M28 82 Q42 69 58 70 M30 95 Q46 108 63 112 M102 65 Q145 83 181 96 Q250 119 321 119"/>
+<g class="whale-speckle"><circle cx="39" cy="72" r="2"/><circle cx="51" cy="66" r="1.6"/><circle cx="65" cy="72" r="1.5"/><circle cx="76" cy="62" r="1.8"/><circle cx="92" cy="69" r="1.5"/><circle cx="108" cy="76" r="1.3"/><circle cx="126" cy="82" r="1.5"/><circle cx="144" cy="89" r="1.4"/><circle cx="164" cy="97" r="1.5"/><circle cx="184" cy="103" r="1.2"/><circle cx="207" cy="110" r="1.4"/><circle cx="231" cy="116" r="1.3"/><circle cx="253" cy="119" r="1.2"/><circle cx="278" cy="122" r="1.3"/><circle cx="300" cy="122" r="1.3"/></g>
+</svg></div><div class="cursor-glow" aria-hidden="true"></div>
 <main>
   <div class="eyebrow">BPSTPH · STATIONHEAD</div>
   <h1 class="title">PURPLE HEARTS JAR</h1>
