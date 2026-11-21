@@ -10,9 +10,7 @@ export default {
       "Cache-Control": "no-store"
     };
 
-    if (request.method === "OPTIONS") {
-      return new Response(null, { headers });
-    }
+    if (request.method === "OPTIONS") return new Response(null, { headers });
 
     try {
       const upstream = await fetch(PROFILE, {
@@ -24,30 +22,33 @@ export default {
       });
       const html = await upstream.text();
 
-      // The public profile embeds this exact BPSTPH station object.
-      // Restrict extraction to the known station ID to avoid the global
-      // online-member count elsewhere in the same page payload.
-      const idPosition = html.indexOf(STATION_ID);
-      if (!upstream.ok || idPosition < 0) {
+      // Find the actual serialized station entity, not the earlier route parameter
+      // that happens to contain the same numeric station ID.
+      const marker = STATION_ID + ',\\\\?"type\\\\?":\\\\?"station\\\\?"';
+      const markerRegex = new RegExp(STATION_ID + ',\\\\?"type\\\\?":\\\\?"station\\\\?"');
+      const markerMatch = markerRegex.exec(html);
+
+      if (!upstream.ok || !markerMatch) {
         return new Response(JSON.stringify({
-          error: "BPSTPH station object not found",
+          error: "BPSTPH station entity not found",
           upstream_status: upstream.status,
           station_id: STATION_ID
         }), { status: 502, headers });
       }
 
-      const stationContext = html.slice(idPosition, idPosition + 1800);
-      const typeMatch = stationContext.match(/type.{0,20}?station/i);
-      const countMatch = stationContext.match(/listener_count.{0,40}?(\\d+)/i);
-      if (!typeMatch || !countMatch) {
+      const stationStart = markerMatch.index;
+      const stationContext = html.slice(stationStart, stationStart + 5000);
+      const countMatch = stationContext.match(/listener_count\\\\?":(\\d+)/);
+      const broadcastMatch = stationContext.match(/is_broadcasting\\\\?":(true|false)/);
+
+      if (!countMatch) {
         return new Response(JSON.stringify({
-          error: "BPSTPH station object found, but its listener_count could not be parsed",
+          error: "BPSTPH station entity found, but listener_count is absent",
           station_id: STATION_ID,
-          station_context: stationContext.slice(0, 700)
+          station_context: stationContext.slice(0, 1200)
         }), { status: 502, headers });
       }
 
-      const broadcastMatch = stationContext.match(/is_broadcasting.{0,20}?(true|false)/i);
       return new Response(JSON.stringify({
         listeners: Number(countMatch[1]),
         is_broadcasting: broadcastMatch ? broadcastMatch[1] === "true" : null,
