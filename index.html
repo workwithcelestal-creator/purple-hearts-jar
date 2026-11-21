@@ -53,26 +53,53 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 
 .bubble-field{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
 .bubble{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff7 0%,#f1dcff42 9%,#d1a4ff25 24%,#a879ed18 54%,#ffffff04 74%);border:1px solid #f5e6ff24;box-shadow:inset -14px -18px 36px #a86de51c,inset 8px 8px 24px #fff2,0 0 38px #b77af01c;filter:blur(1.2px);animation:bubbleFloat var(--duration,22s) ease-in-out infinite alternate;opacity:var(--opacity,.48)}
-.bubble:nth-child(1){width:clamp(170px,27vw,310px);height:clamp(170px,27vw,310px);left:-5%;top:12%;--duration:27s;--opacity:.42}.bubble:nth-child(2){width:clamp(130px,20vw,230px);height:clamp(130px,20vw,230px);left:73%;top:4%;--duration:23s;animation-delay:-6s;--opacity:.36}.bubble:nth-child(3){width:clamp(210px,34vw,390px);height:clamp(210px,34vw,390px);left:78%;top:60%;--duration:31s;animation-delay:-12s;--opacity:.3}.bubble:nth-child(4){width:clamp(145px,23vw,270px);height:clamp(145px,23vw,270px);left:13%;top:72%;--duration:25s;animation-delay:-8s;--opacity:.36}.bubble:nth-child(5){width:clamp(95px,15vw,170px);height:clamp(95px,15vw,170px);left:48%;top:3%;--duration:21s;animation-delay:-3s;--opacity:.32}.bubble:nth-child(6){width:clamp(180px,28vw,330px);height:clamp(180px,28vw,330px);left:42%;top:83%;--duration:29s;animation-delay:-10s;--opacity:.26}.bubble:nth-child(7){width:clamp(120px,18vw,210px);height:clamp(120px,18vw,210px);left:89%;top:33%;--duration:24s;animation-delay:-4s;--opacity:.35}
+.bubble:nth-child(1){width:clamp(170px,27vw,310px);height:clamp(170px,27vw,310px);left:-5%;top:12%;--duration:27s;--opacity:.42}.bubble:nth-child(2){width:clamp(130px,20vw,230px);height:clamp(130px,20vw,230px);left:73%;top:4%;--duration:23s;animation-delay:-6s;--opacity:.36}.bubble:nth-child(3){width:clamp(210px,34vw,390px);height:clamp(210px,34vw,390px);left:78%;top:60%;--duration:31s;animation-delay:-12s;--opacity:.3}.bubble:nth-child(4){width:clamp(145px,23vw,270px);height:clamp(145px,23vw,270px);left:13%;top:72%;--duration:25s;animation-delay:-8s;--opacity:.36}.bubble:nth-child(5){width:clamp(95px,15vw,170px);height:clamp(95px,15vw,170px);left:48%;top:3%;--duration:21s;animation-delay:-3s;--opacity:.32}.bubble:nth-child(6){width:clamp(180px,28vw,330px);height:clamp(180px,28vw,330px);left:42%;top:83%;--duration:29s;animation-delay:-10s;--opacity:.26}.bubble:nth-child(1){width:28px;height:28px;left:9%;top:5%;--duration:13s;--opacity:0.20;animation-delay:0s}
+.bubble:nth-child(2){width:65px;height:65px;left:56%;top:66%;--duration:20s;--opacity:0.27;animation-delay:-3s}
+.bubble:nth-child(3){width:102px;height:102px;left:3%;top:27%;--duration:27s;--opacity:0.34;animation-delay:-6s}
+.bubble:nth-child(4){width:139px;height:139px;left:50%;top:88%;--duration:34s;--opacity:0.41;animation-delay:-9s}
+.bubble:nth-child(5){width:46px;height:46px;left:97%;top:49%;--duration:19s;--opacity:0.48;animation-delay:-12s}
+.bubble:nth-child(6){width:83px;height:83px;left:44%;top:10%;--duration:26s;--opacity:0.20;animation-delay:-15s}
+.bubble:nth-child(7){width:120px;height:120px;left:91%;top:71%;--duration:33s;--opacity:0.27;animation-delay:-18s}
+.bubble:nth-child(8){width:157px;height:157px;left:38%;top:32%;--duration:18s;--opacity:0.34;animation-delay:-2s}
+.bubble:nth-child(9){width:64px;height:64px;left:85%;top:93%;--duration:25s;--opacity:0.41;animation-delay:-5s}
+.bubble:nth-child(10){width:101px;height:101px;left:32%;top:54%;--duration:32s;--opacity:0.48;animation-delay:-8s}
+.bubble:nth-child(11){width:138px;height:138px;left:79%;top:15%;--duration:17s;--opacity:0.20;animation-delay:-11s}
+.bubble:nth-child(12){width:45px;height:45px;left:26%;top:76%;--duration:24s;--opacity:0.27;animation-delay:-14s}
+.bubble:nth-child(13){width:82px;height:82px;left:73%;top:37%;--duration:31s;--opacity:0.34;animation-delay:-17s}
+.bubble:nth-child(14){width:119px;height:119px;left:20%;top:98%;--duration:16s;--opacity:0.41;animation-delay:-1s}
+.bubble:nth-child(15){width:156px;height:156px;left:67%;top:59%;--duration:23s;--opacity:0.48;animation-delay:-4s}
+.bubble:nth-child(16){width:63px;height:63px;left:14%;top:20%;--duration:30s;--opacity:0.20;animation-delay:-7s}
+.bubble:nth-child(17){width:100px;height:100px;left:61%;top:81%;--duration:15s;--opacity:0.27;animation-delay:-10s}
+.bubble:nth-child(18){width:137px;height:137px;left:8%;top:42%;--duration:22s;--opacity:0.34;animation-delay:-13s}
+.bubble:nth-child(19){width:44px;height:44px;left:55%;top:3%;--duration:29s;--opacity:0.41;animation-delay:-16s}
+.bubble:nth-child(20){width:81px;height:81px;left:2%;top:64%;--duration:14s;--opacity:0.48;animation-delay:0s}
+.bubble:nth-child(21){width:118px;height:118px;left:49%;top:25%;--duration:21s;--opacity:0.20;animation-delay:-3s}
+.bubble:nth-child(22){width:155px;height:155px;left:96%;top:86%;--duration:28s;--opacity:0.27;animation-delay:-6s}
+.bubble:nth-child(23){width:62px;height:62px;left:43%;top:47%;--duration:13s;--opacity:0.34;animation-delay:-9s}
+.bubble:nth-child(24){width:99px;height:99px;left:90%;top:8%;--duration:20s;--opacity:0.41;animation-delay:-12s}
+.bubble:nth-child(25){width:136px;height:136px;left:37%;top:69%;--duration:27s;--opacity:0.48;animation-delay:-15s}
+.bubble:nth-child(26){width:43px;height:43px;left:84%;top:30%;--duration:34s;--opacity:0.20;animation-delay:-18s}
+.bubble:nth-child(27){width:80px;height:80px;left:31%;top:91%;--duration:19s;--opacity:0.27;animation-delay:-2s}
+.bubble:nth-child(28){width:117px;height:117px;left:78%;top:52%;--duration:26s;--opacity:0.34;animation-delay:-5s}
 @keyframes bubbleFloat{0%{transform:translate3d(-12px,18px,0) scale(.92)}100%{transform:translate3d(22px,-28px,0) scale(1.08)}}
-.whale-flight{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;opacity:.62}
-.whale{position:absolute;width:clamp(190px,34vw,300px);height:auto;left:0;top:0;filter:drop-shadow(0 0 8px #dba0ff88) drop-shadow(0 0 24px #9b55e855);animation:whaleJourney 34s ease-in-out infinite;will-change:transform}
-.whale .body{fill:url(#whaleGradient);stroke:#c9b9f2;stroke-width:1.7;stroke-linejoin:round}
-.whale .glint{fill:none;stroke:#d8d0f6;stroke-width:1.4;stroke-linecap:round;opacity:.55}
-.whale .baleen{fill:none;stroke:#bcb0e9;stroke-width:1.15;stroke-linecap:round;opacity:.68}
-.whale .tail{transform-box:fill-box;transform-origin:50% 50%;animation:tailSweep 2.2s ease-in-out infinite alternate}
-.whale .fin{transform-box:fill-box;transform-origin:10% 15%;animation:finSweep 2.9s ease-in-out infinite alternate}
+.whale-flight{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;opacity:.76}
+.whale{position:absolute;width:clamp(210px,38vw,340px);height:auto;left:0;top:0;filter:drop-shadow(0 0 8px #d7a4ff99) drop-shadow(0 0 24px #9b55e855);animation:whaleJourney 38s linear infinite;will-change:transform}
+.whale .whale-body{fill:url(#whaleGradient);stroke:#d7c5ff;stroke-width:1.3;stroke-linejoin:round}
+.whale .whale-detail{fill:none;stroke:#cbb8f2;stroke-width:1.25;stroke-linecap:round;opacity:.78}
+.whale .whale-speckle{fill:#e5d9ff;opacity:.65}
+.whale .tail{transform-box:view-box;transform-origin:342px 94px;animation:tailFluke 1.9s ease-in-out infinite alternate}
+.whale .pectoral{transform-box:view-box;transform-origin:218px 139px;animation:pectoralSweep 2.7s ease-in-out infinite alternate}
 @keyframes whaleJourney{
-0%{transform:translate(-38vw,72vh) rotate(-18deg) scale(.72)}
-16%{transform:translate(10vw,48vh) rotate(-8deg) scale(.88)}
-33%{transform:translate(48vw,24vh) rotate(8deg) scale(1)}
-50%{transform:translate(74vw,43vh) rotate(24deg) scale(.9) scaleX(-1)}
-67%{transform:translate(47vw,67vh) rotate(7deg) scale(.82) scaleX(-1)}
-84%{transform:translate(8vw,42vh) rotate(-12deg) scale(.94) scaleX(-1)}
-100%{transform:translate(-38vw,72vh) rotate(-18deg) scale(.72)}
+0%{transform:translate(-42vw,48vh) rotate(-12deg) scale(.72)}
+18%{transform:translate(3vw,24vh) rotate(-4deg) scale(.86)}
+36%{transform:translate(39vw,10vh) rotate(8deg) scale(1)}
+52%{transform:translate(72vw,27vh) rotate(20deg) scale(.9) scaleX(-1)}
+68%{transform:translate(65vw,64vh) rotate(8deg) scale(.82) scaleX(-1)}
+84%{transform:translate(16vw,70vh) rotate(-10deg) scale(.9) scaleX(-1)}
+100%{transform:translate(-42vw,48vh) rotate(-12deg) scale(.72)}
 }
-@keyframes tailSweep{from{transform:rotate(-18deg) scaleY(.92)}to{transform:rotate(18deg) scaleY(1.08)}}
-@keyframes finSweep{from{transform:rotate(-8deg)}to{transform:rotate(9deg)}}
+@keyframes tailFluke{from{transform:rotate(-19deg) scaleY(.92)}to{transform:rotate(19deg) scaleY(1.08)}}
+@keyframes pectoralSweep{from{transform:rotate(-7deg)}to{transform:rotate(8deg)}}
 .jar-wrap{touch-action:none;user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
 
@@ -80,22 +107,40 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 </head>
 <body>
 
-<div class="bubble-field" aria-hidden="true"><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i></div>
-<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 420 230"><defs><linearGradient id="whaleGradient" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#8274b5"/><stop offset=".32" stop-color="#403665"/><stop offset=".72" stop-color="#211d43"/><stop offset="1" stop-color="#17142f"/></linearGradient><linearGradient id="finGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#74689d"/><stop offset="1" stop-color="#211b40"/></linearGradient></defs>
-<path class="body" d="M20 91 C28 72 47 61 73 57 C101 51 133 57 164 62 C205 67 246 62 282 69 C318 75 346 91 369 111 C382 121 394 124 409 117 C401 137 382 145 362 137 C337 157 304 167 263 168 C230 169 205 161 178 158 C146 154 111 147 82 134 C52 121 30 108 20 91Z"/>
-<path class="body" d="M363 125 C382 109 402 103 418 112 C409 122 399 129 388 133 C402 136 411 143 418 154 C398 150 380 144 365 137Z"/>
-<path class="body" d="M176 148 C193 165 205 188 211 213 C214 226 205 231 194 219 C174 200 157 177 147 154Z" style="fill:url(#finGradient)"/>
-<path class="body" d="M290 163 Q303 169 317 165 Q310 177 296 177Z"/>
-<path class="glint" d="M30 87 Q52 111 83 124 Q122 141 163 147"/>
-<path class="baleen" d="M36 92 Q72 126 119 137 M42 85 Q79 116 126 129 M51 78 Q87 105 133 120 M65 70 Q99 94 143 111 M82 64 Q111 84 154 102 M100 61 Q126 77 166 94"/>
-<path class="glint" d="M177 69 Q233 73 278 78 Q325 86 355 112"/>
-<path class="glint" d="M180 156 Q197 181 202 208"/>
-<path class="glint" d="M32 88 Q23 84 18 76"/>
-<path d="M52 70 Q74 61 91 65" fill="none" stroke="#bcb0e9" stroke-width="2" opacity=".6"/>
-<circle cx="347" cy="112" r="3" fill="#f3eaff" opacity=".8"/>
-<g fill="#d4c9ef" opacity=".6"><circle cx="30" cy="97" r="3"/><circle cx="42" cy="107" r="2.2"/><circle cx="54" cy="115" r="2"/></g>
-</svg></div>
-<div class="cursor-glow" aria-hidden="true"></div>
+<div class="bubble-field" aria-hidden="true"><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i></div>
+<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 460 270"><defs>
+<linearGradient id="whaleGradient" x1="0" y1="0" x2=".25" y2="1"><stop stop-color="#c9a8f7"/><stop offset=".28" stop-color="#7950bd"/><stop offset=".7" stop-color="#39245f"/><stop offset="1" stop-color="#21143f"/></linearGradient>
+<linearGradient id="whaleBelly" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eadcff"/><stop offset="1" stop-color="#9879c8"/></linearGradient></defs>
+<!-- Main humpback silhouette: broad knobbly rostrum, arched back, tapering peduncle -->
+<path class="whale-body" d="M24 91 C20 75 30 61 48 56 Q57 51 69 57 Q81 48 94 57 Q106 52 119 62 Q134 57 147 68 C178 80 211 93 247 100 C280 107 308 107 329 95 C345 86 354 69 359 48 C365 24 373 13 381 8 C385 26 383 43 377 58 C391 49 411 38 429 35 C426 56 415 73 396 85 C386 92 379 99 376 113 C370 141 344 161 310 171 C275 181 244 176 215 165 C183 153 151 145 119 133 C79 119 44 108 24 91Z"/>
+<!-- underside and throat pleats -->
+<path d="M31 92 C70 121 124 139 174 153 C219 166 261 177 306 169 C278 185 232 184 190 170 C128 151 72 127 31 92Z" fill="url(#whaleBelly)" opacity=".48"/>
+<g class="whale-detail">
+<path d="M32 91 Q79 131 139 146 Q193 166 250 176"/>
+<path d="M35 85 Q84 124 143 139 Q195 158 252 169"/>
+<path d="M40 79 Q91 116 149 132 Q201 150 261 161"/>
+<path d="M49 72 Q101 108 157 124 Q211 143 273 151"/>
+<path d="M60 65 Q111 98 169 116 Q225 133 286 140"/>
+<path d="M73 62 Q125 91 181 108 Q237 125 300 129"/>
+<path d="M91 62 Q143 85 197 101 Q253 116 317 116"/>
+</g>
+<!-- long scalloped pectoral fin -->
+<path class="whale-body pectoral" d="M190 130 C204 130 216 137 225 150 C242 176 258 206 269 231 Q273 243 263 242 C241 234 219 217 202 196 C185 176 174 153 176 141 Q180 132 190 130Z" fill="url(#whaleBelly)"/>
+<path class="whale-detail" d="M184 142 Q206 178 230 205 Q247 223 264 235 M193 139 Q214 171 239 197 M202 143 Q222 171 248 191"/>
+<!-- small far-side fin -->
+<path class="whale-body" d="M125 124 Q133 140 132 161 Q128 178 120 172 Q112 152 111 132Z" opacity=".82"/>
+<!-- tail stock and two distinct flukes -->
+<path class="whale-body" d="M342 112 Q359 99 369 78 Q378 60 377 42 Q382 62 378 82 Q375 101 362 122Z"/>
+<g class="tail">
+<path class="whale-body" d="M374 56 C358 40 344 27 329 17 C313 7 297 6 284 12 C296 28 312 39 331 47 C344 53 357 58 374 64Z"/>
+<path class="whale-body" d="M374 56 C387 38 403 23 420 17 C434 12 447 17 453 29 C440 40 425 49 407 55 C394 59 383 62 374 64Z"/>
+<path class="whale-detail" d="M372 58 Q346 31 310 16 M378 58 Q407 31 439 24"/>
+</g>
+<!-- eye, rostrum tubercles and subtle highlights -->
+<ellipse cx="89" cy="83" rx="4.5" ry="3.2" fill="#201238" stroke="#e8d8ff" stroke-width="1.2"/>
+<path class="whale-detail" d="M28 82 Q42 69 58 70 M30 95 Q46 108 63 112 M102 65 Q145 83 181 96 Q250 119 321 119"/>
+<g class="whale-speckle"><circle cx="39" cy="72" r="2"/><circle cx="51" cy="66" r="1.6"/><circle cx="65" cy="72" r="1.5"/><circle cx="76" cy="62" r="1.8"/><circle cx="92" cy="69" r="1.5"/><circle cx="108" cy="76" r="1.3"/><circle cx="126" cy="82" r="1.5"/><circle cx="144" cy="89" r="1.4"/><circle cx="164" cy="97" r="1.5"/><circle cx="184" cy="103" r="1.2"/><circle cx="207" cy="110" r="1.4"/><circle cx="231" cy="116" r="1.3"/><circle cx="253" cy="119" r="1.2"/><circle cx="278" cy="122" r="1.3"/><circle cx="300" cy="122" r="1.3"/></g>
+</svg></div><div class="cursor-glow" aria-hidden="true"></div>
 <main>
   <div class="eyebrow">BPSTPH · STATIONHEAD</div>
   <h1 class="title">PURPLE HEARTS JAR</h1>
