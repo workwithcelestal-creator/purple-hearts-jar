@@ -32,7 +32,13 @@ body::before{background:#a044ff;top:-24vmax;left:-18vmax}
 body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 .cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:0;background:radial-gradient(230px circle at var(--mouse-x,50%) var(--mouse-y,50%),#c77aff26,transparent 72%);transition:opacity .35s ease}
 .jar-wrap{transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .55s ease}
-.jar-wrap:hover{transform:translateY(-7px) scale(1.015);filter:drop-shadow(0 25px 38px #a34cff55)}
+.jar-wrap:hover{transform:translateY(-4px) scale(1.015);filter:drop-shadow(0 25px 38px #a34cff77)}
+.jar-wrap:hover .jar{animation:jarShake .62s ease-in-out infinite}
+.jar-wrap:hover #hearts g{animation:heartJiggle .38s ease-in-out infinite alternate}
+.jar-wrap:hover #hearts g:nth-child(2n){animation-delay:-.19s}
+.jar-wrap:hover #hearts g:nth-child(3n){animation-delay:-.31s}
+@keyframes jarShake{0%,100%{transform:rotate(0deg)}20%{transform:rotate(-1deg)}40%{transform:rotate(1deg)}60%{transform:rotate(-.7deg)}80%{transform:rotate(.7deg)}}
+@keyframes heartJiggle{from{translate:-2px -1px;rotate:-5deg}to{translate:2px 2px;rotate:5deg}}
 .jar-wrap::after{content:"";position:absolute;inset:8% 10%;border-radius:48%;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 35% 30%,#fff5,transparent 48%);transition:opacity .5s ease}
 .jar-wrap:hover::after{opacity:.65}
 .title{transition:text-shadow .4s ease}
@@ -111,7 +117,7 @@ function heartSvg(x,y,size,opacity,rotation){
 const heartNodes = [];
 function createHeartAt(index, animate=false){
   const ns="http://www.w3.org/2000/svg";
-  let x,y,startY,size=25+Math.random()*5;
+  let x,y,startY,size=30+Math.random()*6;
   if(index<180){
     const col=index%9,row=Math.floor(index/9);
     x=112+col*22+(Math.random()*7-3.5);
@@ -119,7 +125,7 @@ function createHeartAt(index, animate=false){
     startY=48;
   }else{
     x=95+Math.random()*210;y=40+Math.random()*70;startY=y-35;
-    size=24+Math.random()*7;
+    size=28+Math.random()*8;
   }
   const wrapper=document.createElementNS(ns,"g");
   wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
