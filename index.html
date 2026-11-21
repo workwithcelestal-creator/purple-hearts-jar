@@ -52,13 +52,18 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
 .bubble-field{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
-.bubble{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 32% 26%,#fff9 0%,#f0d8ff70 7%,#c28aff40 25%,#9b5de51c 58%,#ffffff08 72%);border:1px solid #f5e6ff36;box-shadow:inset -8px -12px 24px #a86de51a,inset 5px 6px 15px #fff2,0 0 24px #b77af02b;animation:bubbleFloat var(--duration,18s) ease-in-out infinite alternate;opacity:var(--opacity,.55)}
-.bubble:nth-child(1){width:110px;height:110px;left:7%;top:13%;--duration:19s;--opacity:.45}.bubble:nth-child(2){width:54px;height:54px;left:78%;top:12%;--duration:14s;animation-delay:-6s}.bubble:nth-child(3){width:160px;height:160px;left:84%;top:62%;--duration:23s;animation-delay:-12s;--opacity:.35}.bubble:nth-child(4){width:76px;height:76px;left:18%;top:76%;--duration:16s;animation-delay:-8s}.bubble:nth-child(5){width:38px;height:38px;left:55%;top:7%;--duration:12s;animation-delay:-3s}.bubble:nth-child(6){width:130px;height:130px;left:48%;top:83%;--duration:21s;animation-delay:-10s;--opacity:.3}.bubble:nth-child(7){width:68px;height:68px;left:91%;top:35%;--duration:17s;animation-delay:-4s}
+.bubble{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 34% 28%,#fff7 0%,#f1dcff42 9%,#d1a4ff25 24%,#a879ed18 54%,#ffffff04 74%);border:1px solid #f5e6ff24;box-shadow:inset -14px -18px 36px #a86de51c,inset 8px 8px 24px #fff2,0 0 38px #b77af01c;filter:blur(1.2px);animation:bubbleFloat var(--duration,22s) ease-in-out infinite alternate;opacity:var(--opacity,.48)}
+.bubble:nth-child(1){width:clamp(170px,27vw,310px);height:clamp(170px,27vw,310px);left:-5%;top:12%;--duration:27s;--opacity:.42}.bubble:nth-child(2){width:clamp(130px,20vw,230px);height:clamp(130px,20vw,230px);left:73%;top:4%;--duration:23s;animation-delay:-6s;--opacity:.36}.bubble:nth-child(3){width:clamp(210px,34vw,390px);height:clamp(210px,34vw,390px);left:78%;top:60%;--duration:31s;animation-delay:-12s;--opacity:.3}.bubble:nth-child(4){width:clamp(145px,23vw,270px);height:clamp(145px,23vw,270px);left:13%;top:72%;--duration:25s;animation-delay:-8s;--opacity:.36}.bubble:nth-child(5){width:clamp(95px,15vw,170px);height:clamp(95px,15vw,170px);left:48%;top:3%;--duration:21s;animation-delay:-3s;--opacity:.32}.bubble:nth-child(6){width:clamp(180px,28vw,330px);height:clamp(180px,28vw,330px);left:42%;top:83%;--duration:29s;animation-delay:-10s;--opacity:.26}.bubble:nth-child(7){width:clamp(120px,18vw,210px);height:clamp(120px,18vw,210px);left:89%;top:33%;--duration:24s;animation-delay:-4s;--opacity:.35}
 @keyframes bubbleFloat{0%{transform:translate3d(-12px,18px,0) scale(.92)}100%{transform:translate3d(22px,-28px,0) scale(1.08)}}
-.whale-flight{position:fixed;left:0;top:18%;width:100%;height:170px;pointer-events:none;z-index:0;overflow:visible;opacity:.82}
-.whale{position:absolute;width:clamp(130px,27vw,230px);height:auto;left:-28%;filter:drop-shadow(0 0 12px #d66affaa) drop-shadow(0 0 30px #9b55e877);animation:whaleSwim 28s linear infinite}
-.whale .body{fill:url(#whaleGradient)}.whale .glint{fill:none;stroke:#f9d9ff;stroke-width:2;stroke-linecap:round;opacity:.75}
-@keyframes whaleSwim{0%{transform:translateX(0) translateY(12px) rotate(-5deg)}20%{transform:translateX(28vw) translateY(-10px) rotate(1deg)}50%{transform:translateX(65vw) translateY(13px) rotate(4deg)}80%{transform:translateX(112vw) translateY(-9px) rotate(-2deg)}100%{transform:translateX(150vw) translateY(10px) rotate(3deg)}}
+.whale-flight{position:fixed;left:0;top:15%;width:100%;height:220px;pointer-events:none;z-index:0;overflow:visible;opacity:.68}
+.whale{position:absolute;width:clamp(190px,39vw,330px);height:auto;left:-42%;filter:drop-shadow(0 0 7px #dba0ff99) drop-shadow(0 0 22px #9b55e855);animation:whaleSwim 25s ease-in-out infinite}
+.whale .body{fill:url(#whaleGradient);stroke:#d9b8ff;stroke-width:2.8;stroke-linejoin:round}.whale .glint{fill:none;stroke:#d9c9ff;stroke-width:2.2;stroke-linecap:round;opacity:.7}
+.whale .baleen{fill:none;stroke:#d6c4ff;stroke-width:1.8;stroke-linecap:round;opacity:.7}
+.whale .tail{transform-box:fill-box;transform-origin:left center;animation:tailSweep 2.8s ease-in-out infinite alternate}
+.whale .fin{transform-box:fill-box;transform-origin:top center;animation:finSweep 3.5s ease-in-out infinite alternate}
+@keyframes whaleSwim{0%{transform:translate3d(0,16px,0) rotate(-3deg) scale(.92)}25%{transform:translate3d(35vw,-9px,0) rotate(1deg) scale(1)}50%{transform:translate3d(72vw,14px,0) rotate(3deg) scale(1.04)}75%{transform:translate3d(112vw,-12px,0) rotate(-1deg) scale(1)}100%{transform:translate3d(155vw,8px,0) rotate(2deg) scale(.96)}}
+@keyframes tailSweep{from{transform:rotate(-13deg)}to{transform:rotate(13deg)}}
+@keyframes finSweep{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
 .jar-wrap{touch-action:none;user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
 
@@ -67,7 +72,16 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 <body>
 
 <div class="bubble-field" aria-hidden="true"><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i></div>
-<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 320 180"><defs><linearGradient id="whaleGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1a1ff"/><stop offset=".42" stop-color="#bd4cf2"/><stop offset="1" stop-color="#7130c8"/></linearGradient></defs><path class="body" d="M27 112 C54 77 91 54 137 56 C176 57 204 78 239 83 C263 86 279 76 297 60 C291 89 273 111 249 119 C220 129 191 112 164 117 C129 124 112 148 86 150 C61 152 42 136 27 112Z"/><path class="body" d="M112 68 C98 42 87 20 91 7 C115 20 135 42 143 61Z"/><path class="body" d="M149 116 C137 142 120 158 97 168 C103 143 113 126 129 111Z"/><path class="glint" d="M53 105 C91 72 134 69 171 78"/><path class="glint" d="M107 24 Q124 38 132 55"/><circle cx="232" cy="96" r="2.8" fill="#fff1ff"/><path d="M258 49l4 9 9 4-9 4-4 9-4-9-9-4 9-4Z" fill="#f8d7ff" opacity=".8"/></svg></div>
+<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 420 230"><defs><linearGradient id="whaleGradient" x1="0" y1="0" x2="0.9" y2="1"><stop stop-color="#30265f"/><stop offset=".55" stop-color="#211b4c"/><stop offset="1" stop-color="#493178"/></linearGradient></defs>
+<path class="body" d="M22 73 C54 48 106 42 166 47 L275 53 C314 54 343 66 367 83 L390 74 Q407 69 419 84 Q402 91 386 100 Q403 112 414 128 Q393 124 376 109 C354 130 328 145 291 148 L240 151 C222 154 208 170 198 196 Q192 216 177 222 Q165 207 160 187 L147 151 C100 143 58 125 22 73Z"/>
+<path class="tail" d="M363 88 Q387 62 414 69 Q405 84 390 91 Q407 96 419 111 Q393 109 376 101Z" fill="#30265f" stroke="#d9b8ff" stroke-width="2.8" stroke-linejoin="round"/>
+<path class="fin" d="M205 139 Q226 163 250 205 Q260 226 247 225 Q215 213 196 181 L179 145Z" fill="#292052" stroke="#d9b8ff" stroke-width="2.4"/>
+<path class="glint" d="M35 79 Q89 115 151 126 M45 69 Q104 106 161 117 M58 61 Q112 95 166 108 M76 56 Q123 84 170 99 M96 53 Q136 75 177 91"/>
+<path class="glint" d="M185 53 Q249 55 301 61 Q336 66 359 82"/>
+<path class="glint" d="M39 86 Q91 128 148 137"/>
+<path d="M25 73 Q13 67 8 61" fill="none" stroke="#d9b8ff" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="345" cy="82" r="3.2" fill="#f4eaff"/>
+</svg></div>
 <div class="cursor-glow" aria-hidden="true"></div>
 <main>
   <div class="eyebrow">BPSTPH · STATIONHEAD</div>
