@@ -7,7 +7,7 @@
 <title>PURPLE HEARTS JAR 💜</title>
 <style>
 :root{color-scheme:dark;--ink:#f8efff;--muted:#cbb8dc;--lav:#d9a8ff;--violet:#9b55e8;--deep:#160b2b}
-*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 16px;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 28%,#4c2476 0%,#28123f 38%,#160b2b 76%);overflow-x:hidden}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 16px;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 28%,#4c2476 0%,#28123f 38%,#160b2b 76%);overflow-x:hidden;position:relative;isolation:isolate}
 main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.28em;color:#d8b8f2}.title{font-size:clamp(29px,7vw,48px);font-weight:500;letter-spacing:.08em;margin:12px 0 5px;text-shadow:0 0 26px #b56bff77}.sub{font:14px system-ui,sans-serif;color:var(--muted);margin:0 0 14px}
 .jar-wrap{position:relative;width:min(84vw,390px);height:min(104vw,445px);max-height:445px;margin:0 auto 6px;filter:drop-shadow(0 22px 32px #08031188)}
 .jar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -19,10 +19,32 @@ main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-u
 .message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
 .footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
 .heart{filter:drop-shadow(0 1px 5px #b55cffbb)}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+/* Ambient purple light and gentle movement */
+body::before,body::after{content:"";position:fixed;width:42vmax;height:42vmax;border-radius:50%;filter:blur(85px);opacity:.19;pointer-events:none;z-index:-1;animation:ambientDrift 16s ease-in-out infinite alternate}
+body::before{background:#a044ff;top:-24vmax;left:-18vmax}
+body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
+.cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:0;background:radial-gradient(230px circle at var(--mouse-x,50%) var(--mouse-y,50%),#c77aff26,transparent 72%);transition:opacity .35s ease}
+.jar-wrap{transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .55s ease}
+.jar-wrap:hover{transform:translateY(-7px) scale(1.015);filter:drop-shadow(0 25px 38px #a34cff55)}
+.jar-wrap::after{content:"";position:absolute;inset:8% 10%;border-radius:48%;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 35% 30%,#fff5,transparent 48%);transition:opacity .5s ease}
+.jar-wrap:hover::after{opacity:.65}
+.title{transition:text-shadow .4s ease}
+.title:hover{text-shadow:0 0 12px #d8a4ff,0 0 38px #a64dff,0 0 65px #7e32d9}
+#hearts g{transform-box:fill-box;transform-origin:center;animation:heartBob 3.4s ease-in-out infinite alternate}
+#hearts g:nth-child(3n){animation-delay:-1.2s}
+#hearts g:nth-child(3n + 1){animation-delay:-2.1s}
+.count{transition:transform .3s ease,text-shadow .3s ease}
+.count:hover{transform:scale(1.045);text-shadow:0 0 18px #e1b7ff,0 0 38px #a64dff}
+.milestones span{transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.milestones span:hover{transform:translateY(-4px);box-shadow:0 0 18px #b96aff55}
+@keyframes ambientDrift{from{transform:translate3d(-2%,0,0) scale(.92)}to{transform:translate3d(8%,9%,0) scale(1.12)}}
+@keyframes heartBob{from{translate:0 0}to{translate:0 -3px}}
+@media(hover:hover) and (pointer:fine){.cursor-glow{opacity:1}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+<div class="cursor-glow" aria-hidden="true"></div>
 <main>
   <div class="eyebrow">BPSTPH · STATIONHEAD</div>
   <h1 class="title">PURPLE HEARTS JAR</h1>
@@ -59,6 +81,13 @@ const heartLayer = document.getElementById("hearts");
 const countNode = document.getElementById("count");
 const messageNode = document.getElementById("message");
 const milestoneNodes = [...document.querySelectorAll(".milestones span")];
+// A soft purple spotlight follows the mouse on desktop; it is hidden on touch devices.
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  document.addEventListener("pointermove", (event) => {
+    document.documentElement.style.setProperty("--mouse-x", event.clientX + "px");
+    document.documentElement.style.setProperty("--mouse-y", event.clientY + "px");
+  }, { passive: true });
+}
 
 function heartSvg(x,y,size,opacity,rotation){
   const ns="http://www.w3.org/2000/svg",g=document.createElementNS(ns,"g");
