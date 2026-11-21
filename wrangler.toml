@@ -1,0 +1,3 @@
+name = "bpstph-listener-bridge"
+main = "worker.js"
+compatibility_date = "2026-11-21"
