@@ -8,7 +8,10 @@ export default {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "no-store"
     };
-    if (request.method === "OPTIONS") return new Response(null, { headers });
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers });
+    }
 
     try {
       const upstream = await fetch(PROFILE, {
@@ -20,8 +23,7 @@ export default {
       });
       const html = await upstream.text();
 
-      // First look for an explicit count in the returned BPSTPH profile HTML.
-      const countMatch = html.match(/(?:^|[^\\d])([\\d,]+)\\s+listeners?\\b/i);
+      const countMatch = html.match(/(?:^|[^\d])([\d,]+)\s+listeners?\b/i);
       if (upstream.ok && countMatch) {
         return new Response(JSON.stringify({
           listeners: Number(countMatch[1].replace(/,/g, "")),
@@ -30,7 +32,6 @@ export default {
         }), { headers });
       }
 
-      // Diagnostic only: report what the public profile HTML actually contains.
       const snippets = {};
       for (const term of ["listener", "online", "bpstph", "profile", "__NEXT_DATA__", "__NUXT__"]) {
         const at = html.toLowerCase().indexOf(term.toLowerCase());
@@ -38,7 +39,8 @@ export default {
       }
       const scripts = [...html.matchAll(/<script[^>]+src=["']([^"']+)["']/gi)]
         .map(match => match[1]).slice(0, 25);
-      const title = (html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i) || [])[1] || null;
+      const titleMatch = html.match(/<title[^>]*>(.*?)<\/title>/i);
+      const title = titleMatch ? titleMatch[1] : null;
 
       return new Response(JSON.stringify({
         error: "No explicit listener count found in BPSTPH profile HTML",
