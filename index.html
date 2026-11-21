@@ -123,6 +123,18 @@ main{width:100%;max-width:100%;padding:0 2px}
 .whale{animation:whaleBodySwim 3.4s ease-in-out infinite!important}
 }
 
+
+/* Keep the ambient bubbles gently drifting on desktop and mobile,
+   including devices that request reduced motion. */
+.bubble-field{display:block!important;visibility:visible!important}
+.bubble{animation:bubbleFloat var(--duration,22s) ease-in-out infinite alternate!important;will-change:transform}
+@media(max-width:600px){
+  .bubble-field{position:fixed;inset:0;display:block!important;visibility:visible!important}
+  .bubble{animation:bubbleFloat var(--duration,22s) ease-in-out infinite alternate!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .bubble{animation:bubbleFloat var(--duration,22s) ease-in-out infinite alternate!important}
+}
 </style>
 </head>
 <body>
