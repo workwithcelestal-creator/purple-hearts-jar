@@ -25,6 +25,7 @@ main{position:relative;z-index:1;width:min(100%,620px);text-align:center}.eyebro
 .preview-note{font:10px system-ui,sans-serif;letter-spacing:.16em;color:#e6caff;margin-top:8px;opacity:.85}
 .message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
 .footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
+.join-stream{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 27px;margin-top:18px;border:1px solid #e2c3ff88;border-radius:999px;background:linear-gradient(135deg,#a45be8dd,#6936a9dd);box-shadow:0 0 22px #a64dff35,inset 0 1px #fff5;color:#fff;text-decoration:none;font:700 12px/1 system-ui,sans-serif;letter-spacing:.18em;transition:transform .2s ease,box-shadow .2s ease}.join-stream:hover,.join-stream:focus-visible{transform:translateY(-2px);box-shadow:0 0 28px #b56aff77;outline:none}.join-stream span{font-size:16px;letter-spacing:0}
 .heart{filter:drop-shadow(0 1px 5px #b55cffbb)}
 /* Ambient light, glossy drifting bubbles, and a swimming whale */
 body::before,body::after{content:"";position:fixed;width:42vmax;height:42vmax;border-radius:50%;filter:blur(85px);opacity:.19;pointer-events:none;z-index:-2;animation:ambientDrift 16s ease-in-out infinite alternate}
@@ -100,22 +101,16 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 @media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
 @media(max-width:600px){
 .whale-flight{opacity:.72;overflow:visible}
-.whale-mover{width:clamp(145px,48vw,220px);animation:whaleJourneyMobile 34s linear infinite;will-change:transform}
+.whale-mover{width:clamp(145px,48vw,220px);will-change:transform}
+main{width:100%;max-width:100%;padding-inline:2px}
+.jar-wrap{width:min(84vw,350px);height:min(104vw,400px)}
+.milestones{gap:7px}
+.milestones span{min-width:48px;padding:9px 10px}
+.join-stream{margin-top:16px;width:min(100%,260px)}
 }
-@keyframes whaleJourneyMobile{
-0%{transform:translate(-55vw,62vh) rotate(-8deg) scale(.72)}
-18%{transform:translate(4vw,47vh) rotate(-2deg) scale(.82)}
-36%{transform:translate(45vw,30vh) rotate(6deg) scale(.92)}
-50%{transform:translate(78vw,39vh) rotate(13deg) scale(.86)}
-56%{transform:translate(82vw,46vh) rotate(18deg) scaleX(-1) scale(.84)}
-74%{transform:translate(45vw,65vh) rotate(7deg) scaleX(-1) scale(.8)}
-90%{transform:translate(-2vw,54vh) rotate(-5deg) scaleX(-1) scale(.86)}
-100%{transform:translate(-55vw,62vh) rotate(-8deg) scale(.72)}
-}
-/* Keep the whale journey visible on phones even when reduced-motion is enabled. */
 @media(prefers-reduced-motion:reduce){
-.whale-mover{animation:whaleJourneyMobile 48s linear infinite!important}
-.whale{animation:whaleBodySwim 5s ease-in-out infinite!important}
+.whale-mover{animation:whaleJourney 38s ease-in-out infinite!important}
+.whale{animation:whaleBodySwim 3.4s ease-in-out infinite!important}
 }
 
 </style>
@@ -149,9 +144,10 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
   <div class="count" id="count" aria-live="polite">—</div>
   <div class="count-label">HEARTS INSIDE THE JAR</div>
   <div class="milestone-heading">STREAMING MILESTONES</div>
-  <div class="milestones" id="milestones"><span data-n="7">7</span><span data-n="17">17</span><span data-n="37">37</span><span data-n="77">77</span><span data-n="100">100</span></div>
+  <div class="milestones" id="milestones"><span data-n="7">7</span><span data-n="17">17</span><span data-n="37">37</span><span data-n="77">77</span><span data-n="100">100+</span></div>
   <p class="message" id="message">Connecting to BPSTPH public profile… 💜</p>
   <div class="preview-note" id="previewNote" hidden>VISUAL PREVIEW · SAMPLE HEART</div>
+  <a class="join-stream" href="https://stationhead.com/bpstph" target="_blank" rel="noopener noreferrer">JOIN STREAM <span aria-hidden="true">↗</span></a>
   <div class="footer">YOUR STREAMS ARE COUNTED</div>
 </main>
 <script>
