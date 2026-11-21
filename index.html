@@ -152,7 +152,8 @@ function createHeartAt(index, animate=false){
     size=28+Math.random()*8;
   }
   const wrapper=document.createElementNS(ns,"g");
-  wrapper.dataset.baseX=String(x); wrapper.dataset.baseY=String(y);\n  wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
+  wrapper.dataset.baseX=String(x); wrapper.dataset.baseY=String(y);
+  wrapper.setAttribute("transform",`translate(${x} ${animate?startY:y})`);
   const heart=heartSvg(0,0,size,.78+Math.random()*.22,-18+Math.random()*36);
   wrapper.appendChild(heart);
   heartLayer.appendChild(wrapper);
