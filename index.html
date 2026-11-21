@@ -98,6 +98,25 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 @keyframes whaleBodySwim{0%,100%{transform:translateY(0) rotate(0deg) scaleY(1)}25%{transform:translateY(-7px) rotate(-1.4deg) scaleY(1.025)}50%{transform:translateY(1px) rotate(1.2deg) scaleY(.985)}75%{transform:translateY(6px) rotate(-.6deg) scaleY(1.015)}}
 .jar-wrap{touch-action:none;user-select:none;-webkit-user-select:none}
 @media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
+@media(max-width:600px){
+.whale-flight{opacity:.72;overflow:visible}
+.whale-mover{width:clamp(145px,48vw,220px);animation:whaleJourneyMobile 34s linear infinite;will-change:transform}
+}
+@keyframes whaleJourneyMobile{
+0%{transform:translate(-55vw,62vh) rotate(-8deg) scale(.72)}
+18%{transform:translate(4vw,47vh) rotate(-2deg) scale(.82)}
+36%{transform:translate(45vw,30vh) rotate(6deg) scale(.92)}
+50%{transform:translate(78vw,39vh) rotate(13deg) scale(.86)}
+56%{transform:translate(82vw,46vh) rotate(18deg) scaleX(-1) scale(.84)}
+74%{transform:translate(45vw,65vh) rotate(7deg) scaleX(-1) scale(.8)}
+90%{transform:translate(-2vw,54vh) rotate(-5deg) scaleX(-1) scale(.86)}
+100%{transform:translate(-55vw,62vh) rotate(-8deg) scale(.72)}
+}
+/* Keep the whale journey visible on phones even when reduced-motion is enabled. */
+@media(prefers-reduced-motion:reduce){
+.whale-mover{animation:whaleJourneyMobile 48s linear infinite!important}
+.whale{animation:whaleBodySwim 5s ease-in-out infinite!important}
+}
 
 </style>
 </head>
