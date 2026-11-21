@@ -36,7 +36,7 @@ export default {
 
       const stationContext = html.slice(stationMatch.index, stationMatch.index + 5000);
       // Skip escaped quote/backslash characters between the key and its numeric value.
-      const countMatch = stationContext.match(/listener_count.{0,30}?(\\d+)/);
+      const countMatch = stationContext.match(/listener_count.{0,30}?(\d+)/);
       if (!countMatch) {
         return new Response(JSON.stringify({
           error: "BPSTPH station entity found, but listener_count could not be parsed",
