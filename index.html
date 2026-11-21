@@ -7,7 +7,7 @@
 <title>PURPLE HEARTS JAR 💜</title>
 <style>
 :root{color-scheme:dark;--ink:#f8efff;--muted:#cbb8dc;--lav:#d9a8ff;--violet:#9b55e8;--deep:#160b2b}
-*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 16px;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 28%,#4c2476 0%,#28123f 38%,#160b2b 76%);overflow-x:hidden;position:relative;isolation:isolate}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:28px 16px;color:var(--ink);font-family:Georgia,'Times New Roman',serif;background:radial-gradient(ellipse at 50% 32%,#563078 0%,#352052 42%,#211334 100%);overflow-x:hidden;position:relative;isolation:isolate}
 main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-ui,sans-serif;letter-spacing:.28em;color:#d8b8f2}.title{font-size:clamp(29px,7vw,48px);font-weight:500;letter-spacing:.08em;margin:12px 0 5px;text-shadow:0 0 26px #b56bff77}.sub{font:14px system-ui,sans-serif;color:var(--muted);margin:0 0 14px}
 .jar-wrap{position:relative;width:min(84vw,390px);height:min(104vw,445px);max-height:445px;margin:0 auto 6px;filter:drop-shadow(0 22px 32px #08031188)}
 .jar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -26,8 +26,8 @@ main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-u
 .message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
 .footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
 .heart{filter:drop-shadow(0 1px 5px #b55cffbb)}
-/* Ambient purple light and gentle movement */
-body::before,body::after{content:"";position:fixed;width:42vmax;height:42vmax;border-radius:50%;filter:blur(85px);opacity:.19;pointer-events:none;z-index:-1;animation:ambientDrift 16s ease-in-out infinite alternate}
+/* Ambient light, glossy drifting bubbles, and a swimming whale */
+body::before,body::after{content:"";position:fixed;width:42vmax;height:42vmax;border-radius:50%;filter:blur(85px);opacity:.19;pointer-events:none;z-index:-2;animation:ambientDrift 16s ease-in-out infinite alternate}
 body::before{background:#a044ff;top:-24vmax;left:-18vmax}
 body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 .cursor-glow{position:fixed;inset:0;pointer-events:none;z-index:5;opacity:0;background:radial-gradient(230px circle at var(--mouse-x,50%) var(--mouse-y,50%),#c77aff26,transparent 72%);transition:opacity .35s ease}
@@ -50,9 +50,24 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
 @keyframes heartBob{from{translate:0 0}to{translate:0 -3px}}
 @media(hover:hover) and (pointer:fine){.cursor-glow{opacity:1}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+.bubble-field{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.bubble{position:absolute;display:block;border-radius:50%;background:radial-gradient(circle at 32% 26%,#fff9 0%,#f0d8ff70 7%,#c28aff40 25%,#9b5de51c 58%,#ffffff08 72%);border:1px solid #f5e6ff36;box-shadow:inset -8px -12px 24px #a86de51a,inset 5px 6px 15px #fff2,0 0 24px #b77af02b;animation:bubbleFloat var(--duration,18s) ease-in-out infinite alternate;opacity:var(--opacity,.55)}
+.bubble:nth-child(1){width:110px;height:110px;left:7%;top:13%;--duration:19s;--opacity:.45}.bubble:nth-child(2){width:54px;height:54px;left:78%;top:12%;--duration:14s;animation-delay:-6s}.bubble:nth-child(3){width:160px;height:160px;left:84%;top:62%;--duration:23s;animation-delay:-12s;--opacity:.35}.bubble:nth-child(4){width:76px;height:76px;left:18%;top:76%;--duration:16s;animation-delay:-8s}.bubble:nth-child(5){width:38px;height:38px;left:55%;top:7%;--duration:12s;animation-delay:-3s}.bubble:nth-child(6){width:130px;height:130px;left:48%;top:83%;--duration:21s;animation-delay:-10s;--opacity:.3}.bubble:nth-child(7){width:68px;height:68px;left:91%;top:35%;--duration:17s;animation-delay:-4s}
+@keyframes bubbleFloat{0%{transform:translate3d(-12px,18px,0) scale(.92)}100%{transform:translate3d(22px,-28px,0) scale(1.08)}}
+.whale-flight{position:fixed;left:0;top:18%;width:100%;height:170px;pointer-events:none;z-index:0;overflow:visible;opacity:.82}
+.whale{position:absolute;width:clamp(130px,27vw,230px);height:auto;left:-28%;filter:drop-shadow(0 0 12px #d66affaa) drop-shadow(0 0 30px #9b55e877);animation:whaleSwim 28s linear infinite}
+.whale .body{fill:url(#whaleGradient)}.whale .glint{fill:none;stroke:#f9d9ff;stroke-width:2;stroke-linecap:round;opacity:.75}
+@keyframes whaleSwim{0%{transform:translateX(0) translateY(12px) rotate(-5deg)}20%{transform:translateX(28vw) translateY(-10px) rotate(1deg)}50%{transform:translateX(65vw) translateY(13px) rotate(4deg)}80%{transform:translateX(112vw) translateY(-9px) rotate(-2deg)}100%{transform:translateX(150vw) translateY(10px) rotate(3deg)}}
+.jar-wrap{touch-action:none;user-select:none;-webkit-user-select:none}
+@media(prefers-reduced-motion:reduce){.bubble,.whale{animation:none!important}}
+
 </style>
 </head>
 <body>
+
+<div class="bubble-field" aria-hidden="true"><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i><i class="bubble"></i></div>
+<div class="whale-flight" aria-hidden="true"><svg class="whale" viewBox="0 0 320 180"><defs><linearGradient id="whaleGradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f1a1ff"/><stop offset=".42" stop-color="#bd4cf2"/><stop offset="1" stop-color="#7130c8"/></linearGradient></defs><path class="body" d="M27 112 C54 77 91 54 137 56 C176 57 204 78 239 83 C263 86 279 76 297 60 C291 89 273 111 249 119 C220 129 191 112 164 117 C129 124 112 148 86 150 C61 152 42 136 27 112Z"/><path class="body" d="M112 68 C98 42 87 20 91 7 C115 20 135 42 143 61Z"/><path class="body" d="M149 116 C137 142 120 158 97 168 C103 143 113 126 129 111Z"/><path class="glint" d="M53 105 C91 72 134 69 171 78"/><path class="glint" d="M107 24 Q124 38 132 55"/><circle cx="232" cy="96" r="2.8" fill="#fff1ff"/><path d="M258 49l4 9 9 4-9 4-4 9-4-9-9-4 9-4Z" fill="#f8d7ff" opacity=".8"/></svg></div>
 <div class="cursor-glow" aria-hidden="true"></div>
 <main>
   <div class="eyebrow">BPSTPH · STATIONHEAD</div>
@@ -114,7 +129,9 @@ const heartNodes = [];
 // Hearts are gently pushed away from the cursor, like they are being nahahawi.
 const jarWrap = document.getElementById("jarWrap");
 let pointerInsideJar = false;
+jarWrap.addEventListener("pointerdown", (event) => { pointerInsideJar = true; });
 jarWrap.addEventListener("pointermove", (event) => {
+  pointerInsideJar = true;
   const rect = jarWrap.getBoundingClientRect();
   const px = ((event.clientX - rect.left) / rect.width) * 400;
   const py = ((event.clientY - rect.top) / rect.height) * 450;
@@ -133,12 +150,16 @@ jarWrap.addEventListener("pointermove", (event) => {
     node.setAttribute("transform", `translate(${baseX + driftX} ${baseY + driftY})`);
   });
 });
-jarWrap.addEventListener("pointerleave", () => {
+function restoreHeartPositions(){
+  pointerInsideJar = false;
   heartNodes.forEach(node => {
     const x=Number(node.dataset.baseX), y=Number(node.dataset.baseY);
     if(Number.isFinite(x)&&Number.isFinite(y)) node.setAttribute("transform",`translate(${x} ${y})`);
   });
-});
+}
+jarWrap.addEventListener("pointerleave", restoreHeartPositions);
+jarWrap.addEventListener("pointerup", restoreHeartPositions);
+jarWrap.addEventListener("pointercancel", restoreHeartPositions);
 function createHeartAt(index, animate=false){
   const ns="http://www.w3.org/2000/svg";
   let x,y,startY,size=30+Math.random()*6;
