@@ -22,13 +22,12 @@ export default {
       });
       const html = await upstream.text();
 
-      // Find the actual serialized station entity, not the earlier route parameter
-      // that happens to contain the same numeric station ID.
-      const marker = STATION_ID + ',\\\\?"type\\\\?":\\\\?"station\\\\?"';
-      const markerRegex = new RegExp(STATION_ID + ',\\\\?"type\\\\?":\\\\?"station\\\\?"');
-      const markerMatch = markerRegex.exec(html);
+      // The HTML embeds serialized JSON with escaped quote characters.
+      // Locate the exact BPSTPH station object, then read its own fields.
+      const marker = STATION_ID + ',\\"type\\":\\"station\\"';
+      const stationStart = html.indexOf(marker);
 
-      if (!upstream.ok || !markerMatch) {
+      if (!upstream.ok || stationStart < 0) {
         return new Response(JSON.stringify({
           error: "BPSTPH station entity not found",
           upstream_status: upstream.status,
@@ -36,12 +35,10 @@ export default {
         }), { status: 502, headers });
       }
 
-      const stationStart = markerMatch.index;
       const stationContext = html.slice(stationStart, stationStart + 5000);
-      const countMatch = stationContext.match(/listener_count\\\\?":(\\d+)/);
-      const broadcastMatch = stationContext.match(/is_broadcasting\\\\?":(true|false)/);
-
-      if (!countMatch) {
+      const countKey = 'listener_count\\":';
+      const countAt = stationContext.indexOf(countKey);
+      if (countAt < 0) {
         return new Response(JSON.stringify({
           error: "BPSTPH station entity found, but listener_count is absent",
           station_id: STATION_ID,
@@ -49,9 +46,21 @@ export default {
         }), { status: 502, headers });
       }
 
+      const digits = stationContext.slice(countAt + countKey.length).match(/^\\d+/);
+      if (!digits) {
+        return new Response(JSON.stringify({
+          error: "BPSTPH listener_count value was not numeric",
+          station_id: STATION_ID
+        }), { status: 502, headers });
+      }
+
+      const broadcastKey = 'is_broadcasting\\":';
+      const broadcastAt = stationContext.indexOf(broadcastKey);
+      const broadcastValue = broadcastAt < 0 ? null :
+        stationContext.slice(broadcastAt + broadcastKey.length).match(/^(true|false)/);
       return new Response(JSON.stringify({
-        listeners: Number(countMatch[1]),
-        is_broadcasting: broadcastMatch ? broadcastMatch[1] === "true" : null,
+        listeners: Number(digits[0]),
+        is_broadcasting: broadcastValue ? broadcastValue[0] === "true" : null,
         station_id: STATION_ID,
         source: PROFILE,
         checked_at: new Date().toISOString()
