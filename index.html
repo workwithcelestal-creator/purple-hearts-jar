@@ -195,7 +195,7 @@ function render(n){
     lastRenderedCount=count;
   }
   milestoneNodes.forEach(el=>el.classList.toggle("reached",count>=Number(el.dataset.n)));
-  messageNode.textContent=count>100?"Hearts overflowing = Your streams are counted.":count===100?"The jar is full. Your streams are counted.":count>=77?"77 hearts reached 💜":count>=37?"37 hearts reached 💜":count>=17?"17 hearts reached 💜":count>=7?"7 hearts reached 💜":"Every listener adds a heart.";
+  messageNode.textContent=count>100?"Hearts overflowing = Your streams are counted.":count===100?"Let’s add more hearts and streams! 💜":count>=77?"77 hearts reached 💜":count>=37?"37 hearts reached 💜":count>=17?"17 hearts reached 💜":count>=7?"7 hearts reached 💜":"Every listener adds a heart.";
 }
 async function update(){
   if(LISTENER_BRIDGE_URL.includes("PASTE_YOUR_")) {
@@ -220,7 +220,7 @@ if(previewMode === "100"){
   document.getElementById("previewNote").hidden=false;
   document.getElementById("previewNote").textContent="VISUAL PREVIEW · 100 LISTENERS";
   render(100);
-  messageNode.textContent="The jar is full. 100 hearts for 100 listeners! 💜";
+  messageNode.textContent="Let’s add more hearts and streams! 💜";
 }else if(previewMode === "1"){
   document.getElementById("previewNote").hidden=false;
   document.getElementById("previewNote").textContent="VISUAL PREVIEW · SAMPLE HEART";
