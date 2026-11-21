@@ -14,8 +14,15 @@ main{width:min(100%,620px);text-align:center}.eyebrow{font:600 11px/1.4 system-u
 .glass{fill:url(#glass);stroke:#f3e8ffb5;stroke-width:3}.rim{fill:#d8c4ed22;stroke:#f4eaffd9;stroke-width:4}.base{fill:#e9d9ff18;stroke:#f4eaff99;stroke-width:2}.shine{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;opacity:.55}
 .count{font-size:clamp(54px,13vw,78px);line-height:1;font-weight:500;text-shadow:0 0 25px #c17aff66;font-variant-numeric:tabular-nums;margin-top:-8px}
 .count-label{font:600 11px system-ui,sans-serif;letter-spacing:.24em;color:#d8c1ee;margin-top:8px}
-.milestones{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:25px auto 18px;font:12px system-ui,sans-serif;color:#d9c5eb}
-.milestones span{border:1px solid #c99be64d;border-radius:99px;padding:7px 11px;background:#ffffff08}.milestones .reached{background:#a45ce944;border-color:#d6a5ff;color:#fff}
+.milestone-heading{font:700 11px/1.4 system-ui,sans-serif;letter-spacing:.3em;color:#e5c7ff;margin:28px 0 12px;text-shadow:0 0 16px #b56bff88}
+.milestones{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 18px;font:600 13px system-ui,sans-serif;color:#d9c5eb}
+.milestones span{min-width:54px;border:1px solid #c99be66b;border-radius:13px;padding:11px 13px;background:linear-gradient(145deg,#ffffff12,#ffffff05);box-shadow:inset 0 1px #ffffff12;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}
+.milestones span::after{content:"";display:block;font-size:8px;letter-spacing:.12em;color:#bda4d3;margin-top:4px}
+.milestones .reached{background:linear-gradient(145deg,#b66aff66,#7130a766);border-color:#e0b7ff;color:#fff;box-shadow:0 0 20px #a64dff44,inset 0 1px #ffffff35}
+.milestones .reached::after{content:"REACHED";color:#f3ddff}
+.heart-enter{animation:heartPop .75s cubic-bezier(.16,.85,.3,1.25) both}
+@keyframes heartPop{0%{opacity:0;transform:scale(.12) translateY(-24px)}65%{opacity:1;transform:scale(1.28) translateY(2px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+.preview-note{font:10px system-ui,sans-serif;letter-spacing:.16em;color:#e6caff;margin-top:8px;opacity:.85}
 .message{min-height:30px;font-size:clamp(17px,4vw,22px);color:#f2dcff;text-shadow:0 0 16px #bd7bff66;margin:12px 0 0}
 .footer{font:11px system-ui,sans-serif;letter-spacing:.08em;color:#a990bf;margin-top:27px}
 .heart{filter:drop-shadow(0 1px 5px #b55cffbb)}
@@ -69,8 +76,10 @@ body::after{background:#6c32d8;right:-22vmax;bottom:-25vmax;animation-delay:-8s}
   </div>
   <div class="count" id="count" aria-live="polite">—</div>
   <div class="count-label">HEARTS INSIDE THE JAR</div>
+  <div class="milestone-heading">STREAMING MILESTONES</div>
   <div class="milestones" id="milestones"><span data-n="7">7</span><span data-n="17">17</span><span data-n="37">37</span><span data-n="77">77</span><span data-n="100">100</span></div>
   <p class="message" id="message">Connecting to BPSTPH public profile… 💜</p>
+  <div class="preview-note" id="previewNote" hidden>VISUAL PREVIEW · SAMPLE HEART</div>
   <div class="footer">YOUR STREAMS ARE COUNTED</div>
 </main>
 <script>
@@ -99,19 +108,27 @@ function heartSvg(x,y,size,opacity,rotation){
   p.setAttribute("stroke","#f2ddff");p.setAttribute("stroke-opacity",".5");p.setAttribute("stroke-width",".65");
   g.appendChild(p);return g;
 }
-function drawHearts(n){
+function drawHearts(n, previousCount = 0){
   heartLayer.replaceChildren();
   const visible=Math.min(n,180);
   for(let i=0;i<visible;i++){
     const col=i%9,row=Math.floor(i/9),x=112+col*22+(Math.random()*7-3.5),y=385-row*16+(Math.random()*6-3);
     if(y<100)continue;
-    heartLayer.appendChild(heartSvg(x,y,18+Math.random()*5,.78+Math.random()*.22,-18+Math.random()*36));
+    const heart=heartSvg(x,y,18+Math.random()*5,.78+Math.random()*.22,-18+Math.random()*36);
+    if(i>=previousCount)heart.classList.add("heart-enter");
+    heartLayer.appendChild(heart);
   }
   if(n>180)for(let i=0;i<Math.min(n-180,30);i++)heartLayer.appendChild(heartSvg(95+Math.random()*210,40+Math.random()*70,17+Math.random()*7,.9,-25+Math.random()*50));
 }
+let lastRenderedCount = null;
 function render(n){
   const count=Math.max(0,Math.floor(Number(n)||0));
-  countNode.textContent=count.toLocaleString();drawHearts(count);
+  if(count!==lastRenderedCount){
+    const previousCount=lastRenderedCount===null?0:lastRenderedCount;
+    countNode.textContent=count.toLocaleString();
+    drawHearts(count, count>previousCount?previousCount:count);
+    lastRenderedCount=count;
+  }
   milestoneNodes.forEach(el=>el.classList.toggle("reached",count>=Number(el.dataset.n)));
   messageNode.textContent=count>100?"Hearts overflowing = Your streams are counted.":count===100?"The jar is full. Your streams are counted.":count>=77?"77 hearts reached 💜":count>=37?"37 hearts reached 💜":count>=17?"17 hearts reached 💜":count>=7?"7 hearts reached 💜":"Every listener adds a heart.";
 }
@@ -133,8 +150,15 @@ async function update(){
     console.warn("BPSTPH listener bridge:",error);
   }
 }
-update();
-setInterval(update,POLL_INTERVAL_MS);
+const previewMode = new URLSearchParams(window.location.search).get("demo") === "1";
+if(previewMode){
+  document.getElementById("previewNote").hidden=false;
+  render(1);
+  messageNode.textContent="A new listener joined. One purple heart added! 💜";
+}else{
+  update();
+  setInterval(update,POLL_INTERVAL_MS);
+}
 </script>
 </body>
 </html>
